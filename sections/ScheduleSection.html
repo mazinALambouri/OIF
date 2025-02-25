@@ -1,0 +1,102 @@
+ <!-- FORUM SCHEDULE SECTION -->
+ <section id="schedule" class=" 16py-16 relative">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative">
+      <div class="mb-12 text-center fade-in">
+        <h2 class="font-manrope text-5xl font-bold text-gray-900 mb-4">Forum Schedule</h2>
+        <p class="mt-4 text-gray-600 text-lg">Join us for three days of inspiring talks and networking</p>
+      </div>
+      <!-- Tab Navigation -->
+      <div class="flex flex-wrap justify-center gap-4 mb-8 px-4">
+        <button onclick="switchTab('day1', event)" class="tab-button active bg-indigo-600 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 hover:bg-indigo-700 hover:shadow-lg transform hover:-translate-y-1 text-sm w-full sm:w-auto">
+          Day 1
+        </button>
+        <button onclick="switchTab('day2', event)" class="tab-button bg-gray-200 text-gray-700 px-6 py-3 rounded-lg font-semibold transition-all duration-300 hover:bg-gray-300 hover:shadow-lg transform hover:-translate-y-1 text-sm w-full sm:w-auto">
+          Day 2
+        </button>
+        <button onclick="switchTab('day3', event)" class="tab-button bg-gray-200 text-gray-700 px-6 py-3 rounded-lg font-semibold transition-all duration-300 hover:bg-gray-300 hover:shadow-lg transform hover:-translate-y-1 text-sm w-full sm:w-auto">
+          Day 3
+        </button>
+      </div>
+      <!-- Tab Contents with enhanced styling -->
+      <div class="tab-contents relative">
+        <!-- Day 1 -->
+        <div id="day1" class="tab-content block transition-all duration-500">
+          <div class="bg-white/80 backdrop-blur-lg rounded-xl shadow-xl p-4 sm:p-8 hover:shadow-2xl transition-all duration-300">
+            <div class="mb-6">
+              <h3 class="text-xl font-bold text-indigo-600">Opening Day</h3>
+              <p class="text-gray-600">December 10, 2024</p>
+            </div>
+            <div class="grid gap-4 sm:gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+              <div class="schedule-item bg-indigo-50 rounded-lg p-4 sm:p-6 transition transform hover:scale-105 hover:shadow-md">
+                <p class="text-indigo-600 font-semibold text-sm">09:00 - 10:30</p>
+                <h4 class="text-lg font-bold mt-2">Opening Ceremony</h4>
+                <p class="text-gray-600 mt-2 text-sm">Welcome address and keynote speech</p>
+              </div>
+              <div class="schedule-item bg-indigo-50 rounded-lg p-4 sm:p-6 transition transform hover:scale-105 hover:shadow-md">
+                <p class="text-indigo-600 font-semibold text-sm">11:00 - 12:30</p>
+                <h4 class="text-lg font-bold mt-2">Future of Space</h4>
+                <p class="text-gray-600 mt-2 text-sm">Panel discussion with industry leaders</p>
+              </div>
+              <div class="schedule-item bg-indigo-50 rounded-lg p-4 sm:p-6 transition transform hover:scale-105 hover:shadow-md">
+                <p class="text-indigo-600 font-semibold text-sm">14:00 - 16:00</p>
+                <h4 class="text-lg font-bold mt-2">Innovation Showcase</h4>
+                <p class="text-gray-600 mt-2 text-sm">Exhibition of latest technologies</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Day 2 -->
+        <div id="day2" class="tab-content hidden transition-all duration-500">
+          <div class="bg-white/80 backdrop-blur-lg rounded-xl shadow-xl p-4 sm:p-8 hover:shadow-2xl transition-all duration-300">
+            <div class="mb-6">
+              <h3 class="text-xl font-bold text-indigo-600">Main Event Day</h3>
+              <p class="text-gray-600">December 11, 2024</p>
+            </div>
+            <div class="grid gap-4 sm:gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+              <div class="schedule-item bg-indigo-50 rounded-lg p-4 sm:p-6 transition transform hover:scale-105 hover:shadow-md">
+                <p class="text-indigo-600 font-semibold text-sm">09:00 - 11:00</p>
+                <h4 class="text-lg font-bold mt-2">Investment Forum</h4>
+                <p class="text-gray-600 mt-2 text-sm">Presentations and networking</p>
+              </div>
+              <div class="schedule-item bg-indigo-50 rounded-lg p-4 sm:p-6 transition transform hover:scale-105 hover:shadow-md">
+                <p class="text-indigo-600 font-semibold text-sm">11:30 - 13:00</p>
+                <h4 class="text-lg font-bold mt-2">Space Exploration</h4>
+                <p class="text-gray-600 mt-2 text-sm">Technical sessions and workshops</p>
+              </div>
+              <div class="schedule-item bg-indigo-50 rounded-lg p-4 sm:p-6 transition transform hover:scale-105 hover:shadow-md">
+                <p class="text-indigo-600 font-semibold text-sm">14:30 - 16:30</p>
+                <h4 class="text-lg font-bold mt-2">Startup Pitches</h4>
+                <p class="text-gray-600 mt-2 text-sm">Emerging companies showcase</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Day 3 -->
+        <div id="day3" class="tab-content hidden transition-all duration-500">
+          <div class="bg-white/80 backdrop-blur-lg rounded-xl shadow-xl p-4 sm:p-8 hover:shadow-2xl transition-all duration-300">
+            <div class="mb-6">
+              <h3 class="text-xl font-bold text-indigo-600">Closing Day</h3>
+              <p class="text-gray-600">December 12, 2024</p>
+            </div>
+            <div class="grid gap-4 sm:gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+              <div class="schedule-item bg-indigo-50 rounded-lg p-4 sm:p-6 transition transform hover:scale-105 hover:shadow-md">
+                <p class="text-indigo-600 font-semibold text-sm">09:00 - 10:30</p>
+                <h4 class="text-lg font-bold mt-2">Future Trends</h4>
+                <p class="text-gray-600 mt-2 text-sm">Industry insights and forecasts</p>
+              </div>
+              <div class="schedule-item bg-indigo-50 rounded-lg p-4 sm:p-6 transition transform hover:scale-105 hover:shadow-md">
+                <p class="text-indigo-600 font-semibold text-sm">11:00 - 13:00</p>
+                <h4 class="text-lg font-bold mt-2">Partnership Summit</h4>
+                <p class="text-gray-600 mt-2 text-sm">Collaboration opportunities</p>
+              </div>
+              <div class="schedule-item bg-indigo-50 rounded-lg p-4 sm:p-6 transition transform hover:scale-105 hover:shadow-md">
+                <p class="text-indigo-600 font-semibold text-sm">14:00 - 16:00</p>
+                <h4 class="text-lg font-bold mt-2">Closing Ceremony</h4>
+                <p class="text-gray-600 mt-2 text-sm">Awards and final remarks</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
