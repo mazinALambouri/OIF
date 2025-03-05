@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../assets/img/Oman.png';
 
 const Navigation = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobileSubmenuOpen, setIsMobileSubmenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState('home');
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -20,12 +21,37 @@ const Navigation = () => {
     const element = document.getElementById(sectionId);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
+      setActiveSection(sectionId);
     }
     // Close mobile menu if it's open
     if (isMobileMenuOpen) {
       setIsMobileMenuOpen(false);
     }
   };
+
+  // Listen for scroll events to update active section based on viewport
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = ['home', 'about', 'schedule', 'speakers', 'sponsors'];
+      
+      for (const section of sections) {
+        const element = document.getElementById(section);
+        if (element) {
+          const rect = element.getBoundingClientRect();
+          // If the section is in the viewport (with some buffer for better UX)
+          if (rect.top <= 150 && rect.bottom >= 150) {
+            setActiveSection(section);
+            break;
+          }
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   return (
     <nav className="fixed z-50 w-full bg-white/55 backdrop-blur-xl shadow-sm">
@@ -43,27 +69,47 @@ const Navigation = () => {
             {/* Desktop nav links */}
             <ul className="hidden lg:flex space-x-4">
               <li>
-                <a href="#home" onClick={(e) => scrollToSection('home', e)} className="nav-link transition-colors duration-300 hover:text-blue-600">
+                <a 
+                  href="#home" 
+                  onClick={(e) => scrollToSection('home', e)} 
+                  className={`nav-link transition-colors duration-300 hover:text-blue-600 ${activeSection === 'home' ? 'text-blue-600 font-bold' : ''}`}
+                >
                   HOME
                 </a>
               </li>
               <li>
-                <a href="#about" onClick={(e) => scrollToSection('about', e)} className="nav-link transition-colors duration-300 hover:text-blue-600">
+                <a 
+                  href="#about" 
+                  onClick={(e) => scrollToSection('about', e)} 
+                  className={`nav-link transition-colors duration-300 hover:text-blue-600 ${activeSection === 'about' ? 'text-blue-600 font-bold' : ''}`}
+                >
                   ABOUT
                 </a>
               </li>
               <li>
-                <a href="#schedule" onClick={(e) => scrollToSection('schedule', e)} className="nav-link transition-colors duration-300 hover:text-blue-600">
+                <a 
+                  href="#schedule" 
+                  onClick={(e) => scrollToSection('schedule', e)} 
+                  className={`nav-link transition-colors duration-300 hover:text-blue-600 ${activeSection === 'schedule' ? 'text-blue-600 font-bold' : ''}`}
+                >
                   SCHEDULE
                 </a>
               </li>
               <li>
-                <a href="#speakers" onClick={(e) => scrollToSection('speakers', e)} className="nav-link transition-colors duration-300 hover:text-blue-600">
+                <a 
+                  href="#speakers" 
+                  onClick={(e) => scrollToSection('speakers', e)} 
+                  className={`nav-link transition-colors duration-300 hover:text-blue-600 ${activeSection === 'speakers' ? 'text-blue-600 font-bold' : ''}`}
+                >
                   SPEAKERS
                 </a>
               </li>
               <li>
-                <a href="#sponsors" onClick={(e) => scrollToSection('sponsors', e)} className="nav-link transition-colors duration-300 hover:text-blue-600">
+                <a 
+                  href="#sponsors" 
+                  onClick={(e) => scrollToSection('sponsors', e)} 
+                  className={`nav-link transition-colors duration-300 hover:text-blue-600 ${activeSection === 'sponsors' ? 'text-blue-600 font-bold' : ''}`}
+                >
                   SPONSORS
                 </a>
               </li>
@@ -98,27 +144,47 @@ const Navigation = () => {
       <div className={`lg:hidden bg-white shadow-md ${isMobileMenuOpen ? '' : 'hidden'}`}>
         <ul className="flex flex-col space-y-4 p-4">
           <li>
-            <a href="#home" onClick={(e) => scrollToSection('home', e)} className="nav-link block transition-colors duration-300 hover:text-blue-600">
+            <a 
+              href="#home" 
+              onClick={(e) => scrollToSection('home', e)} 
+              className={`nav-link block transition-colors duration-300 hover:text-blue-600 ${activeSection === 'home' ? 'text-blue-600 font-bold' : ''}`}
+            >
               HOME
             </a>
           </li>
           <li>
-            <a href="#about" onClick={(e) => scrollToSection('about', e)} className="nav-link block transition-colors duration-300 hover:text-blue-600">
+            <a 
+              href="#about" 
+              onClick={(e) => scrollToSection('about', e)} 
+              className={`nav-link block transition-colors duration-300 hover:text-blue-600 ${activeSection === 'about' ? 'text-blue-600 font-bold' : ''}`}
+            >
               ABOUT
             </a>
           </li>
           <li>
-            <a href="#schedule" onClick={(e) => scrollToSection('schedule', e)} className="nav-link block transition-colors duration-300 hover:text-blue-600">
+            <a 
+              href="#schedule" 
+              onClick={(e) => scrollToSection('schedule', e)} 
+              className={`nav-link block transition-colors duration-300 hover:text-blue-600 ${activeSection === 'schedule' ? 'text-blue-600 font-bold' : ''}`}
+            >
               SCHEDULE
             </a>
           </li>
           <li>
-            <a href="#speakers" onClick={(e) => scrollToSection('speakers', e)} className="nav-link block transition-colors duration-300 hover:text-blue-600">
+            <a 
+              href="#speakers" 
+              onClick={(e) => scrollToSection('speakers', e)} 
+              className={`nav-link block transition-colors duration-300 hover:text-blue-600 ${activeSection === 'speakers' ? 'text-blue-600 font-bold' : ''}`}
+            >
               SPEAKERS
             </a>
           </li>
           <li>
-            <a href="#sponsors" onClick={(e) => scrollToSection('sponsors', e)} className="nav-link block transition-colors duration-300 hover:text-blue-600">
+            <a 
+              href="#sponsors" 
+              onClick={(e) => scrollToSection('sponsors', e)} 
+              className={`nav-link block transition-colors duration-300 hover:text-blue-600 ${activeSection === 'sponsors' ? 'text-blue-600 font-bold' : ''}`}
+            >
               SPONSORS
             </a>
           </li>
