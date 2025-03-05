@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 
 const Home = () => {
   const [timeLeft, setTimeLeft] = useState({
@@ -38,15 +39,36 @@ const Home = () => {
     return () => clearInterval(timer);
   }, []);
 
+  // Animation variants
+  const fadeIn = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { duration: 0.8 }
+    }
+  };
+
+  const staggerChildren = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2
+      }
+    }
+  };
+
   return (
-    <section id="home" className="relative">
+    <section id="home" className="relative overflow-hidden">
       <div className="relative h-screen -mt-16">
+        {/* Background Video */}
         <video 
           autoPlay 
           muted 
           loop 
           playsInline 
-          className="absolute inset-0 w-full h-full object-cover z-0 scale-105" 
+          className="absolute inset-0 w-full h-full object-cover z-0 scale-105 filter brightness-[0.85]" 
           aria-hidden="true" 
           loading="lazy"
         >
@@ -59,50 +81,87 @@ const Home = () => {
           />
         </video>
 
-        <div className="absolute inset-0 bg-gradient-to-tr from-purple-950/80 via-transparent to-emerald-950/60 backdrop-blur-[2px] z-10"></div>
+        {/* Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-tr from-purple-950/90 via-black/40 to-emerald-950/70 backdrop-blur-[1px] z-10"></div>
+        
+        {/* Animated Particles (optional visual element) */}
+        <div className="absolute inset-0 z-10 opacity-30">
+          <div className="absolute top-1/4 left-1/4 w-32 h-32 rounded-full bg-purple-500/20 blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-1/3 right-1/3 w-40 h-40 rounded-full bg-emerald-500/20 blur-3xl animate-pulse" style={{animationDelay: '1s'}}></div>
+          <div className="absolute top-2/3 left-1/2 w-24 h-24 rounded-full bg-blue-500/20 blur-3xl animate-pulse" style={{animationDelay: '2s'}}></div>
+        </div>
 
+        {/* Content */}
         <div className="relative z-20 flex items-center justify-center h-full">
-          <div className="mx-auto max-w-7xl px-6 text-center">
-            <div className="space-y-8 animate-fade-in">
-              <h1 className="text-4xl font-bold text-white md:text-6xl xl:text-7xl tracking-tight">
-                <span className="block bg-gradient-to-r from-emerald-400 to-purple-400 bg-clip-text text-transparent">
-                  OMAN INVESTMENT FORUM 2025
+          <div className="mx-auto max-w-7xl px-6">
+            <motion.div 
+              className="space-y-10"
+              initial="hidden"
+              animate="visible"
+              variants={staggerChildren}
+            >
+              {/* Main Heading */}
+              <motion.div variants={fadeIn} className="text-center">
+                <span className="inline-block py-1 px-3 rounded-full bg-white/10 backdrop-blur-md text-white/90 text-sm font-medium mb-6">
+                  March 27, 2025
                 </span>
-              </h1>
-              <p className="mt-6 max-w-2xl mx-auto text-xl text-white/90 font-light">
-                Your gateway to unlimited investment opportunities in Oman.
-              </p>
+                <h1 className="text-5xl font-bold text-white md:text-7xl xl:text-8xl tracking-tight leading-none">
+                  <span className="block bg-gradient-to-r from-emerald-300 via-teal-200 to-purple-400 bg-clip-text text-transparent pb-2">
+                    OMAN INVESTMENT
+                  </span>
+                  <span className="block bg-gradient-to-r from-purple-400 via-teal-200 to-emerald-300 bg-clip-text text-transparent">
+                    FORUM 2025
+                  </span>
+                </h1>
+                <motion.p 
+                  variants={fadeIn}
+                  className="mt-8 max-w-2xl mx-auto text-xl md:text-2xl text-white/90 font-light leading-relaxed"
+                >
+                  Your gateway to unlimited investment opportunities in Oman.
+                </motion.p>
+              </motion.div>
 
               {/* Countdown Timer */}
-              <div className="mt-12">
-                <div className="grid grid-cols-4 gap-2 sm:gap-4 max-w-2xl mx-auto px-2 sm:px-0">
-                  <div className="bg-white/10 backdrop-blur-md rounded-lg sm:rounded-xl p-2 sm:p-4">
-                    <div className="text-2xl sm:text-4xl font-bold text-white countdown-number">{timeLeft.days}</div>
-                    <div className="text-white/80 text-[10px] sm:text-sm">Days</div>
-                  </div>
-                  <div className="bg-white/10 backdrop-blur-md rounded-lg sm:rounded-xl p-2 sm:p-4">
-                    <div className="text-2xl sm:text-4xl font-bold text-white countdown-number">{timeLeft.hours}</div>
-                    <div className="text-white/80 text-[10px] sm:text-sm">Hrs</div>
-                  </div>
-                  <div className="bg-white/10 backdrop-blur-md rounded-lg sm:rounded-xl p-2 sm:p-4">
-                    <div className="text-2xl sm:text-4xl font-bold text-white countdown-number">{timeLeft.minutes}</div>
-                    <div className="text-white/80 text-[10px] sm:text-sm">Min</div>
-                  </div>
-                  <div className="bg-white/10 backdrop-blur-md rounded-lg sm:rounded-xl p-2 sm:p-4">
-                    <div className="text-2xl sm:text-4xl font-bold text-white countdown-number">{timeLeft.seconds}</div>
-                    <div className="text-white/80 text-[10px] sm:text-sm">Sec</div>
-                  </div>
+              <motion.div variants={fadeIn} className="mt-16">
+                <div className="grid grid-cols-4 gap-3 sm:gap-6 max-w-3xl mx-auto">
+                  {[
+                    { value: timeLeft.days, label: 'Days' },
+                    { value: timeLeft.hours, label: 'Hours' },
+                    { value: timeLeft.minutes, label: 'Minutes' },
+                    { value: timeLeft.seconds, label: 'Seconds' }
+                  ].map((item, index) => (
+                    <div key={index} className="relative group">
+                      <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/30 to-purple-600/30 rounded-2xl blur-xl group-hover:blur-lg transition-all duration-300"></div>
+                      <div className="relative bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl p-4 sm:p-6 overflow-hidden group-hover:bg-white/15 transition-all duration-300">
+                        <div className="text-3xl sm:text-5xl font-bold text-white countdown-number">{item.value}</div>
+                        <div className="text-white/80 text-xs sm:text-base font-medium mt-1">{item.label}</div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              </div>
+              </motion.div>
 
               {/* Call to Action */}
-              <div className="mt-8">
-                <a href="#about" className="px-6 py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold rounded-lg transition">
-                  Learn More
-                </a>
-              </div>
-            </div>
+              <motion.div variants={fadeIn} className="mt-12 text-center">
+                
+               
+              </motion.div>
+            </motion.div>
           </div>
+        </div>
+        
+        {/* Scroll Indicator */}
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20">
+          <motion.div 
+            animate={{ y: [0, 10, 0] }}
+            transition={{ duration: 1.5, repeat: Infinity }}
+            className="flex flex-col items-center"
+          >
+            <span className="text-white/60 text-sm mb-2">Scroll Down</span>
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white/60" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+            </svg>
+          </motion.div>
         </div>
       </div>
     </section>

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../supabaseClient.js';
+import { motion } from 'framer-motion';
 
 const Sponsors = () => {
-  const [topRowSponsors, setTopRowSponsors] = useState([]);
-  const [bottomRowSponsors, setBottomRowSponsors] = useState([]);
+  const [sponsors, setSponsors] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -14,6 +14,31 @@ const Sponsors = () => {
     "Sohar": { height: "h-32", width: "w-56" },
     "Tourism": { height: "h-32", width: "w-56" },
     "Commerce": { height: "h-48", width: "w-80", extraClasses: "-mt-4" }
+  };
+
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: 0.2
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { 
+        type: "spring", 
+        stiffness: 100,
+        damping: 12
+      }
+    }
   };
 
   useEffect(() => {
@@ -61,21 +86,16 @@ const Sponsors = () => {
           });
           
           console.log("Processed sponsor data:", processedData);
-          
-          // Split sponsors into top and bottom rows (first 3 in top, rest in bottom)
-          setTopRowSponsors(processedData.slice(0, 3));
-          setBottomRowSponsors(processedData.slice(3));
+          setSponsors(processedData);
         } else {
           console.log("No data returned from Supabase");
           setError("No sponsors data found");
-          setTopRowSponsors([]);
-          setBottomRowSponsors([]);
+          setSponsors([]);
         }
       } catch (err) {
         console.error('Error fetching sponsors:', err);
         setError(err.message);
-        setTopRowSponsors([]);
-        setBottomRowSponsors([]);
+        setSponsors([]);
       } finally {
         setLoading(false);
       }
@@ -85,75 +105,86 @@ const Sponsors = () => {
   }, []);
 
   return (
-    <section id="sponsors" className="py-20 bg-gradient-to-b from-white to-gray-50">
-      <div className="max-w-6xl mx-auto px-6">
+    <section id="sponsors" className="py-24 bg-gradient-to-b from-white via-indigo-50 to-purple-50 relative overflow-hidden">
+      {/* Decorative background elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute -top-40 -right-40 w-96 h-96 bg-indigo-200/30 rounded-full mix-blend-multiply filter blur-3xl"></div>
+        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-purple-200/30 rounded-full mix-blend-multiply filter blur-3xl"></div>
+      </div>
+      
+      <div className="max-w-6xl mx-auto px-6 relative z-10">
         {/* Section Header */}
-        <div className="text-center mb-16">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-16"
+        >
+          <div className="inline-block mb-3">
+            <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent text-lg font-semibold tracking-wide uppercase">Partners</span>
+          </div>
           <h2 className="text-4xl font-bold text-gray-900 mb-4">Our Sponsors</h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
             Proudly supported by industry leaders who share our vision for innovation and technological advancement
           </p>
-        </div>
+        </motion.div>
 
         {/* Loading state */}
         {loading && (
-          <div className="text-center py-10">
-            <p className="text-gray-600">Loading sponsors...</p>
-          </div>
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="text-center py-16"
+          >
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-indigo-100 mb-4">
+              <svg className="animate-spin h-8 w-8 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+            </div>
+            <p className="text-gray-600 font-medium">Loading our amazing sponsors...</p>
+          </motion.div>
         )}
 
         {/* Error state */}
         {error && (
-          <div className="text-center py-10">
-            <p className="text-red-500">Error loading sponsors: {error}</p>
-          </div>
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="text-center py-16 bg-white rounded-xl shadow-sm border border-red-100"
+          >
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-red-100 mb-4">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              </svg>
+            </div>
+            <p className="text-red-600 font-medium">Error loading sponsors: {error}</p>
+          </motion.div>
         )}
 
         {/* Sponsors Grid */}
-        {!loading && !error && (
-          <div className="grid grid-cols-3 gap-12 max-w-4xl mx-auto">
-            {/* First row sponsors */}
-            {topRowSponsors.map((sponsor, index) => {
-              console.log(`Rendering top row sponsor: ${sponsor.name}, Image:`, sponsor.image);
-              return (
-                <div key={sponsor.id || index} className="sponsor-card">
-                  {sponsor.image && (
-                    <img 
-                      src={sponsor.image}
-                      alt={sponsor.name}
-                      className={`${sponsor.height} ${sponsor.width} object-contain filter grayscale hover:grayscale-0 transition-all duration-300 ${sponsor.extraClasses || ''}`}
-                      onError={(e) => {
-                        console.error(`Error loading image for ${sponsor.name}:`, e);
-                        // Try without the @ symbol if it failed
-                        if (typeof sponsor.image === 'string' && sponsor.image.includes('@')) {
-                          e.target.src = sponsor.image.replace('@', '');
-                        } else {
-                          // Fallback to a placeholder if image fails to load
-                          e.target.src = 'https://via.placeholder.com/150?text=' + sponsor.name;
-                        }
-                      }}
-                    />
-                  )}
-                  {!sponsor.image && (
-                    <div className={`${sponsor.height} ${sponsor.width} flex items-center justify-center bg-gray-100`}>
-                      <span className="text-gray-500">{sponsor.name}</span>
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-            
-            {/* Second row sponsors (centered) */}
-            <div className="col-span-3 flex justify-center gap-12">
-              {bottomRowSponsors.map((sponsor, index) => {
-                console.log(`Rendering bottom row sponsor: ${sponsor.name}, Image:`, sponsor.image);
-                return (
-                  <div key={sponsor.id || index} className="sponsor-card">
-                    {sponsor.image && (
+        {!loading && !error && sponsors.length > 0 && (
+          <motion.div 
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          >
+            {sponsors.map((sponsor, index) => (
+              <motion.div 
+                key={sponsor.id || index}
+                variants={itemVariants}
+                whileHover={{ y: -5, transition: { duration: 0.2 } }}
+                className="relative group"
+              >
+                <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 to-purple-500/10 rounded-2xl transform rotate-1 group-hover:rotate-2 transition-all duration-300"></div>
+                <div className="relative bg-white/80 backdrop-blur-sm border border-white/50 rounded-2xl p-6 shadow-xl overflow-hidden group-hover:shadow-2xl transition-all duration-300">
+                  <div className="flex items-center justify-center h-40">
+                    {sponsor.image ? (
                       <img 
                         src={sponsor.image}
                         alt={sponsor.name}
-                        className={`${sponsor.height} ${sponsor.width} object-contain filter grayscale hover:grayscale-0 transition-all duration-300 ${sponsor.extraClasses || ''}`}
+                        className="max-h-32 max-w-full object-contain transition-all duration-500 group-hover:scale-105 filter grayscale hover:grayscale-0"
                         onError={(e) => {
                           console.error(`Error loading image for ${sponsor.name}:`, e);
                           // Try without the @ symbol if it failed
@@ -165,18 +196,40 @@ const Sponsors = () => {
                           }
                         }}
                       />
-                    )}
-                    {!sponsor.image && (
-                      <div className={`${sponsor.height} ${sponsor.width} flex items-center justify-center bg-gray-100`}>
-                        <span className="text-gray-500">{sponsor.name}</span>
+                    ) : (
+                      <div className="flex items-center justify-center bg-gray-100 rounded-lg p-6 w-full h-full">
+                        <span className="text-gray-500 font-medium text-lg">{sponsor.name}</span>
                       </div>
                     )}
                   </div>
-                );
-              })}
-            </div>
-          </div>
+                  <div className="mt-4 text-center">
+                    <h3 className="text-gray-700 font-medium">{sponsor.name}</h3>
+                    <div className="mt-2 w-12 h-1 bg-gradient-to-r from-indigo-500 to-purple-500 mx-auto rounded-full"></div>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
         )}
+
+        {/* Empty state */}
+        {!loading && !error && sponsors.length === 0 && (
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-center py-16 bg-white rounded-xl shadow-sm border border-gray-100"
+          >
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-indigo-100 mb-4">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <p className="text-gray-600 font-medium">No sponsors available yet. Check back soon!</p>
+          </motion.div>
+        )}
+
+        {/* Call to action for potential sponsors */}
+       
       </div>
     </section>
   );
