@@ -123,7 +123,7 @@ const Schedule = () => {
           transition={{ duration: 0.6 }}
         >
           <span className="inline-block py-1 px-3 rounded-full bg-indigo-100 text-indigo-700 font-medium text-sm tracking-wider mb-2">PROGRAM</span>
-          <h2 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 mt-2 mb-4">Featured Agenda & Highlights</h2>
+          <h2 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 mt-2 mb-4" style={{ WebkitBackgroundClip: 'text', backgroundSize: '100% 100%', paddingBottom: '0.1em' }}>Featured Agenda & Highlights</h2>
           <div className="w-24 h-1.5 bg-gradient-to-r from-indigo-600 to-purple-600 mx-auto rounded-full"></div>
           <p className="text-lg text-gray-700 mt-6 max-w-2xl mx-auto">Explore the key highlights and sessions of each day</p>
         </motion.div>
