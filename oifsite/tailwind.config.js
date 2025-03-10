@@ -10,12 +10,14 @@ module.exports = {
       },
       colors: {
         primary: {
-          DEFAULT: '#3CC4DD',
-          dark: '#1B91A7',
+          DEFAULT: '#4C078C',
+          light: '#6A2BA9',
+          dark: '#3A0569',
         },
         secondary: {
-          DEFAULT: '#492E8B',
-          light: '#8FD2C7',
+          DEFAULT: '#9DD4CA',
+          light: '#B5E0D8',
+          dark: '#7EBCB0',
         },
       },
       animation: {

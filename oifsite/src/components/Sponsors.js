@@ -105,30 +105,27 @@ const Sponsors = () => {
   }, []);
 
   return (
-    <section id="sponsors" className="py-24 bg-gradient-to-b from-white via-indigo-50 to-purple-50 relative overflow-hidden">
+    <section id="sponsors" className="py-24 bg-gradient-to-b from-white via-secondary/20 to-primary/10 relative overflow-hidden">
       {/* Decorative background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-indigo-200/30 rounded-full mix-blend-multiply filter blur-3xl"></div>
-        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-purple-200/30 rounded-full mix-blend-multiply filter blur-3xl"></div>
+        <div className="absolute -top-40 -right-40 w-96 h-96 bg-primary/10 rounded-full mix-blend-multiply filter blur-3xl"></div>
+        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-secondary/30 rounded-full mix-blend-multiply filter blur-3xl"></div>
       </div>
       
       <div className="max-w-6xl mx-auto px-6 relative z-10">
         {/* Section Header */}
+      
         <motion.div 
-          initial={{ opacity: 0, y: 20 }}
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
         >
-          <div className="inline-block mb-3">
-            <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent text-lg font-semibold tracking-wide uppercase">Partners</span>
-          </div>
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">Our Sponsors</h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Proudly supported by industry leaders who share our vision for innovation and technological advancement
-          </p>
+          <span className="inline-block py-1 px-3 rounded-full bg-secondary/30 text-primary font-medium text-sm tracking-wider mb-2">Partners</span>
+          <h2 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary-light mt-2 mb-4" style={{ WebkitBackgroundClip: 'text', backgroundSize: '100% 100%', paddingBottom: '0.1em' }}>Our Sponsors</h2>
+          <div className="w-24 h-1.5 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full"></div>
+          <p className="text-lg text-gray-700 mt-6 max-w-2xl mx-auto">   Proudly supported by industry leaders who share our vision for innovation and technological advancement.</p>
         </motion.div>
-
         {/* Loading state */}
         {loading && (
           <motion.div 
@@ -136,8 +133,8 @@ const Sponsors = () => {
             animate={{ opacity: 1 }}
             className="text-center py-16"
           >
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-indigo-100 mb-4">
-              <svg className="animate-spin h-8 w-8 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-secondary/30 mb-4">
+              <svg className="animate-spin h-8 w-8 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
               </svg>
@@ -177,7 +174,7 @@ const Sponsors = () => {
                 whileHover={{ y: -5, transition: { duration: 0.2 } }}
                 className="relative group"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 to-purple-500/10 rounded-2xl transform rotate-1 group-hover:rotate-2 transition-all duration-300"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-secondary/20 rounded-2xl transform rotate-1 group-hover:rotate-2 transition-all duration-300"></div>
                 <div className="relative bg-white/80 backdrop-blur-sm border border-white/50 rounded-2xl p-6 shadow-xl overflow-hidden group-hover:shadow-2xl transition-all duration-300">
                   <div className="flex items-center justify-center h-40">
                     {sponsor.image ? (
@@ -204,7 +201,7 @@ const Sponsors = () => {
                   </div>
                   <div className="mt-4 text-center">
                     <h3 className="text-gray-700 font-medium">{sponsor.name}</h3>
-                    <div className="mt-2 w-12 h-1 bg-gradient-to-r from-indigo-500 to-purple-500 mx-auto rounded-full"></div>
+                    <div className="mt-2 w-12 h-1 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full"></div>
                   </div>
                 </div>
               </motion.div>
@@ -219,8 +216,8 @@ const Sponsors = () => {
             animate={{ opacity: 1, y: 0 }}
             className="text-center py-16 bg-white rounded-xl shadow-sm border border-gray-100"
           >
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-indigo-100 mb-4">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-secondary/30 mb-4">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
             </div>

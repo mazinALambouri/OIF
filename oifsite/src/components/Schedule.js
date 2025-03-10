@@ -107,11 +107,11 @@ const Schedule = () => {
   };
 
   return (
-    <section id="schedule" className="py-20 relative bg-gradient-to-b from-white to-indigo-50">
+    <section id="schedule" className="py-20 relative bg-gradient-to-b from-white to-secondary/20">
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -right-20 top-20 w-80 h-80 bg-indigo-200/40 rounded-full filter blur-3xl"></div>
-        <div className="absolute -left-20 bottom-20 w-80 h-80 bg-purple-200/40 rounded-full filter blur-3xl"></div>
-        <div className="absolute left-1/2 top-1/3 w-60 h-60 bg-pink-200/30 rounded-full filter blur-3xl"></div>
+        <div className="absolute -right-20 top-20 w-80 h-80 bg-primary/10 rounded-full filter blur-3xl"></div>
+        <div className="absolute -left-20 bottom-20 w-80 h-80 bg-secondary/30 rounded-full filter blur-3xl"></div>
+        <div className="absolute left-1/2 top-1/3 w-60 h-60 bg-primary/5 rounded-full filter blur-3xl"></div>
       </div>
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -122,9 +122,9 @@ const Schedule = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <span className="inline-block py-1 px-3 rounded-full bg-indigo-100 text-indigo-700 font-medium text-sm tracking-wider mb-2">PROGRAM</span>
-          <h2 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 mt-2 mb-4" style={{ WebkitBackgroundClip: 'text', backgroundSize: '100% 100%', paddingBottom: '0.1em' }}>Featured Agenda & Highlights</h2>
-          <div className="w-24 h-1.5 bg-gradient-to-r from-indigo-600 to-purple-600 mx-auto rounded-full"></div>
+          <span className="inline-block py-1 px-3 rounded-full bg-secondary/30 text-primary font-medium text-sm tracking-wider mb-2">PROGRAM</span>
+          <h2 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary-light mt-2 mb-4" style={{ WebkitBackgroundClip: 'text', backgroundSize: '100% 100%', paddingBottom: '0.1em' }}>Featured Agenda & Highlights</h2>
+          <div className="w-24 h-1.5 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full"></div>
           <p className="text-lg text-gray-700 mt-6 max-w-2xl mx-auto">Explore the key highlights and sessions of each day</p>
         </motion.div>
 
@@ -136,8 +136,8 @@ const Schedule = () => {
             animate={{ opacity: 1 }}
           >
             <div className="inline-block h-12 w-12 relative">
-              <div className="absolute top-0 left-0 right-0 bottom-0 rounded-full border-4 border-indigo-200"></div>
-              <div className="absolute top-0 left-0 right-0 bottom-0 rounded-full border-4 border-transparent border-t-indigo-600 animate-spin"></div>
+              <div className="absolute top-0 left-0 right-0 bottom-0 rounded-full border-4 border-secondary/30"></div>
+              <div className="absolute top-0 left-0 right-0 bottom-0 rounded-full border-4 border-transparent border-t-primary animate-spin"></div>
             </div>
             <p className="text-gray-600 mt-4 font-medium">Loading schedule...</p>
           </motion.div>
@@ -174,7 +174,7 @@ const Schedule = () => {
                   onClick={() => setActiveTab(day)}
                   className={`px-6 py-3 rounded-full font-medium transition-all duration-300 text-sm
                     ${activeTab === day 
-                      ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg shadow-indigo-200' 
+                      ? 'bg-gradient-to-r from-primary to-secondary text-white shadow-lg shadow-primary/20' 
                       : 'bg-white text-gray-700 hover:bg-gray-50 hover:shadow-md border border-gray-200'
                     }`}
                   whileHover={{ scale: 1.05 }}
@@ -199,9 +199,9 @@ const Schedule = () => {
                     transition={{ duration: 0.5 }}
                   >
                     <div className="mb-8 border-b border-gray-100 pb-6">
-                      <h3 className="text-2xl font-bold text-indigo-600">{data.title}</h3>
+                      <h3 className="text-2xl font-bold text-primary">{data.title}</h3>
                       <p className="text-gray-600 flex items-center mt-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                         </svg>
                         {data.date}
@@ -217,25 +217,25 @@ const Schedule = () => {
                       {data.events.map((event, index) => (
                         <motion.div 
                           key={index}
-                          className="schedule-item bg-gradient-to-br from-white to-indigo-50 rounded-xl p-6 transition-all duration-300 hover:shadow-lg border border-indigo-100/50 relative overflow-hidden group"
+                          className="schedule-item bg-gradient-to-br from-white to-secondary/20 rounded-xl p-6 transition-all duration-300 hover:shadow-lg border border-secondary/30 relative overflow-hidden group"
                           variants={itemVariants}
                         >
-                          <div className="absolute top-0 right-0 w-20 h-20 bg-indigo-100 rounded-bl-full opacity-50 -mr-10 -mt-10 group-hover:scale-150 transition-transform duration-500"></div>
+                          <div className="absolute top-0 right-0 w-20 h-20 bg-secondary/30 rounded-bl-full opacity-50 -mr-10 -mt-10 group-hover:scale-150 transition-transform duration-500"></div>
                           
-                          <div className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-indigo-100 mb-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <div className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-secondary/30 mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                           </div>
                           
-                          <p className="text-indigo-600 font-semibold text-sm bg-indigo-50 inline-block px-3 py-1 rounded-full">{event.time}</p>
+                          <p className="text-primary font-semibold text-sm bg-secondary/20 inline-block px-3 py-1 rounded-full">{event.time}</p>
                           <h4 className="text-xl font-bold mt-3 text-gray-800">{event.title}</h4>
                           <p className="text-gray-600 mt-3 text-sm leading-relaxed">{event.description}</p>
                           
                           {event.location && (
-                            <div className="mt-4 pt-4 border-t border-indigo-100">
+                            <div className="mt-4 pt-4 border-t border-secondary/30">
                               <p className="text-gray-500 text-sm flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                                 </svg>

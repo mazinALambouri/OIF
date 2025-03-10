@@ -57,22 +57,22 @@ const Navigation = () => {
     <nav className="fixed z-50 w-full bg-white/55 backdrop-blur-xl shadow-sm">
       <div className="px-6 mx-auto max-w-6xl">
         <div className="flex items-center justify-between py-2 sm:py-4">
-          {/* Left side: Logo and desktop links */}
-          <div className="flex items-center space-x-4">
+          {/* Left side: Logo */}
+          <div className="flex-shrink-0 pl-2">
             <a href="#home" onClick={(e) => scrollToSection('home', e)} className="scroll-smooth" aria-label="Logo">
               <img src={logo} alt="Logo" className="h-8" />
             </a>
           </div>
           
-          {/* Right side: Navigation links and mobile menu button */}
-          <div className="flex items-center space-x-2">
+          {/* Center: Navigation links */}
+          <div className="flex-grow flex justify-center">
             {/* Desktop nav links */}
-            <ul className="hidden lg:flex space-x-4">
+            <ul className="hidden lg:flex space-x-8">
               <li>
                 <a 
                   href="#home" 
                   onClick={(e) => scrollToSection('home', e)} 
-                  className={`nav-link transition-colors duration-300 hover:text-blue-600 ${activeSection === 'home' ? 'text-blue-600 font-bold' : ''}`}
+                  className={`nav-link transition-colors duration-300 hover:text-primary ${activeSection === 'home' ? 'text-primary font-bold' : ''}`}
                 >
                   HOME
                 </a>
@@ -81,7 +81,7 @@ const Navigation = () => {
                 <a 
                   href="#about" 
                   onClick={(e) => scrollToSection('about', e)} 
-                  className={`nav-link transition-colors duration-300 hover:text-blue-600 ${activeSection === 'about' ? 'text-blue-600 font-bold' : ''}`}
+                  className={`nav-link transition-colors duration-300 hover:text-primary ${activeSection === 'about' ? 'text-primary font-bold' : ''}`}
                 >
                   ABOUT
                 </a>
@@ -90,7 +90,7 @@ const Navigation = () => {
                 <a 
                   href="#schedule" 
                   onClick={(e) => scrollToSection('schedule', e)} 
-                  className={`nav-link transition-colors duration-300 hover:text-blue-600 ${activeSection === 'schedule' ? 'text-blue-600 font-bold' : ''}`}
+                  className={`nav-link transition-colors duration-300 hover:text-primary ${activeSection === 'schedule' ? 'text-primary font-bold' : ''}`}
                 >
                   SCHEDULE
                 </a>
@@ -99,7 +99,7 @@ const Navigation = () => {
                 <a 
                   href="#speakers" 
                   onClick={(e) => scrollToSection('speakers', e)} 
-                  className={`nav-link transition-colors duration-300 hover:text-blue-600 ${activeSection === 'speakers' ? 'text-blue-600 font-bold' : ''}`}
+                  className={`nav-link transition-colors duration-300 hover:text-primary ${activeSection === 'speakers' ? 'text-primary font-bold' : ''}`}
                 >
                   SPEAKERS
                 </a>
@@ -108,19 +108,22 @@ const Navigation = () => {
                 <a 
                   href="#sponsors" 
                   onClick={(e) => scrollToSection('sponsors', e)} 
-                  className={`nav-link transition-colors duration-300 hover:text-blue-600 ${activeSection === 'sponsors' ? 'text-blue-600 font-bold' : ''}`}
+                  className={`nav-link transition-colors duration-300 hover:text-primary ${activeSection === 'sponsors' ? 'text-primary font-bold' : ''}`}
                 >
                   SPONSORS
                 </a>
               </li>
             </ul>
-            
+          </div>
+          
+          {/* Right side: Mobile menu button */}
+          <div className="flex-shrink-0">
             {/* Mobile menu toggle */}
             <button 
               onClick={toggleMobileMenu}
               aria-label="Toggle menu" 
               aria-expanded={isMobileMenuOpen}
-              className="lg:hidden p-2 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 transition-colors duration-200"
+              className="lg:hidden p-2 rounded-lg hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-primary transition-colors duration-200"
             >
               <svg 
                 className={`w-6 h-6 transition-transform duration-300 ${isMobileMenuOpen ? 'rotate-45' : ''}`}
@@ -147,7 +150,7 @@ const Navigation = () => {
             <a 
               href="#home" 
               onClick={(e) => scrollToSection('home', e)} 
-              className={`nav-link block transition-colors duration-300 hover:text-blue-600 ${activeSection === 'home' ? 'text-blue-600 font-bold' : ''}`}
+              className={`nav-link block transition-colors duration-300 hover:text-primary ${activeSection === 'home' ? 'text-primary font-bold' : ''}`}
             >
               HOME
             </a>
@@ -156,7 +159,7 @@ const Navigation = () => {
             <a 
               href="#about" 
               onClick={(e) => scrollToSection('about', e)} 
-              className={`nav-link block transition-colors duration-300 hover:text-blue-600 ${activeSection === 'about' ? 'text-blue-600 font-bold' : ''}`}
+              className={`nav-link block transition-colors duration-300 hover:text-primary ${activeSection === 'about' ? 'text-primary font-bold' : ''}`}
             >
               ABOUT
             </a>
@@ -165,7 +168,7 @@ const Navigation = () => {
             <a 
               href="#schedule" 
               onClick={(e) => scrollToSection('schedule', e)} 
-              className={`nav-link block transition-colors duration-300 hover:text-blue-600 ${activeSection === 'schedule' ? 'text-blue-600 font-bold' : ''}`}
+              className={`nav-link block transition-colors duration-300 hover:text-primary ${activeSection === 'schedule' ? 'text-primary font-bold' : ''}`}
             >
               SCHEDULE
             </a>
@@ -174,7 +177,7 @@ const Navigation = () => {
             <a 
               href="#speakers" 
               onClick={(e) => scrollToSection('speakers', e)} 
-              className={`nav-link block transition-colors duration-300 hover:text-blue-600 ${activeSection === 'speakers' ? 'text-blue-600 font-bold' : ''}`}
+              className={`nav-link block transition-colors duration-300 hover:text-primary ${activeSection === 'speakers' ? 'text-primary font-bold' : ''}`}
             >
               SPEAKERS
             </a>
@@ -183,7 +186,7 @@ const Navigation = () => {
             <a 
               href="#sponsors" 
               onClick={(e) => scrollToSection('sponsors', e)} 
-              className={`nav-link block transition-colors duration-300 hover:text-blue-600 ${activeSection === 'sponsors' ? 'text-blue-600 font-bold' : ''}`}
+              className={`nav-link block transition-colors duration-300 hover:text-primary ${activeSection === 'sponsors' ? 'text-primary font-bold' : ''}`}
             >
               SPONSORS
             </a>
