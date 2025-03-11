@@ -62,9 +62,6 @@ const Navigation = () => {
         <div className="flex items-center justify-between py-2 sm:py-4">
           {/* Left side: Logo */}
           <div className="flex-shrink-0 pl-2">
-            <a href="#home" onClick={(e) => scrollToSection('home', e)} className="scroll-smooth" aria-label="Logo">
-          {/* Left side: Logo and desktop links */}
-          <div className="flex items-center space-x-4">
             <Link to="/" className="scroll-smooth" aria-label="Logo">
               <img src={logo} alt="Logo" className="h-8" />
             </Link>
@@ -75,16 +72,22 @@ const Navigation = () => {
             {/* Desktop nav links */}
             <ul className="hidden lg:flex space-x-8">
               <li>
-                <a 
-                  href="#home" 
-                  onClick={(e) => scrollToSection('home', e)} 
-                  className={`nav-link transition-colors duration-300 hover:text-primary ${activeSection === 'home' ? 'text-primary font-bold' : ''}`}
-                <Link 
-                  to="/"
-                  className={`nav-link transition-colors duration-300 hover:text-blue-600 ${location.pathname === '/' ? 'text-blue-600 font-bold' : ''}`}
-                >
-                  HOME
-                </Link>
+                {location.pathname === "/" ? (
+                  <a 
+                    href="#home" 
+                    onClick={(e) => scrollToSection('home', e)} 
+                    className={`nav-link transition-colors duration-300 hover:text-primary ${activeSection === 'home' ? 'text-primary font-bold' : ''}`}
+                  >
+                    HOME
+                  </a>
+                ) : (
+                  <Link 
+                    to="/"
+                    className="nav-link transition-colors duration-300 hover:text-primary"
+                  >
+                    HOME
+                  </Link>
+                )}
               </li>
               <li>
                 <a 
@@ -183,16 +186,22 @@ const Navigation = () => {
       <div className={`lg:hidden bg-white shadow-md ${isMobileMenuOpen ? '' : 'hidden'}`}>
         <ul className="flex flex-col space-y-4 p-4">
           <li>
-            <a 
-              href="#home" 
-              onClick={(e) => scrollToSection('home', e)} 
-              className={`nav-link block transition-colors duration-300 hover:text-primary ${activeSection === 'home' ? 'text-primary font-bold' : ''}`}
-            <Link 
-              to="/"
-              className={`nav-link block transition-colors duration-300 hover:text-blue-600 ${location.pathname === '/' ? 'text-blue-600 font-bold' : ''}`}
-            >
-              HOME
-            </Link>
+            {location.pathname === "/" ? (
+              <a 
+                href="#home" 
+                onClick={(e) => scrollToSection('home', e)} 
+                className={`nav-link block transition-colors duration-300 hover:text-primary ${activeSection === 'home' ? 'text-primary font-bold' : ''}`}
+              >
+                HOME
+              </a>
+            ) : (
+              <Link 
+                to="/"
+                className="nav-link block transition-colors duration-300 hover:text-primary"
+              >
+                HOME
+              </Link>
+            )}
           </li>
           <li>
             <a 

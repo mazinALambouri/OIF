@@ -127,9 +127,15 @@ const About = () => {
               variants={itemVariants}
               className="text-center mb-16"
             >
-              <span className="inline-block px-3 py-1 bg-secondary/30 text-primary rounded-full text-sm font-medium tracking-wider mb-3">DISCOVER</span>
-              <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary via-primary-light to-primary bg-clip-text text-transparent mb-6">
-                {overviewData.main_title || "About the Forum"}
+              <span className="inline-block px-3 py-1 bg-secondary/30 text-primary rounded-full text-sm font-medium tracking-wider mb-3">WELCOME</span>
+              <h2 className="text-4xl md:text-5xl font-bold mb-6">
+                <span className="relative">
+                  <span className="relative z-10 bg-gradient-to-r from-primary via-primary-light to-primary bg-clip-text text-transparent">
+                    {overviewData.main_title || "About the Forum"}
+                  </span>
+                  {/* Shadow text to help with rendering */}
+                
+                </span>
               </h2>
               <div className="w-24 h-1.5 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full"></div>
             </motion.div>
@@ -139,14 +145,7 @@ const About = () => {
                 variants={containerVariants}
                 className="space-y-6"
               >
-                <motion.div 
-                  variants={itemVariants}
-                  className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-xl border border-secondary/20 hover:shadow-secondary/30 transition-all duration-300"
-                >
-                  <p className="text-lg text-gray-700 leading-relaxed">
-                    {overviewData.sub_title || "The Oman Investment Forum is a premier gathering of global investors, industry leaders, and policymakers."}
-                  </p>
-                </motion.div>
+                
                 
                 <motion.div 
                   variants={itemVariants}
@@ -225,17 +224,7 @@ const About = () => {
                   </motion.div>
                 </motion.div>
                 
-                <motion.div 
-                  whileHover={{ scale: 1.05 }}
-                  className="absolute -bottom-6 -right-6 bg-gradient-to-r from-primary to-secondary text-white p-6 rounded-2xl shadow-xl"
-                >
-                  <div className="text-3xl font-bold">
-                    {overviewData.end_date ? new Date(overviewData.end_date).getFullYear() : "2025"}
-                  </div>
-                  <div className="text-white/90 text-sm">
-                    Edition
-                  </div>
-                </motion.div>
+                
               </motion.div>
             </div>
           </motion.div>

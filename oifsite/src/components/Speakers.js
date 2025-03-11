@@ -93,7 +93,14 @@ const Speakers = () => {
           transition={{ duration: 0.6 }}
         >
           <span className="inline-block py-1 px-3 rounded-full bg-secondary/30 text-primary font-medium text-sm tracking-wider mb-2">Speakers</span>
-          <h2 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary-light mt-2 mb-4" style={{ WebkitBackgroundClip: 'text', backgroundSize: '100% 100%', paddingBottom: '0.1em' }}>Our Speakers</h2>
+          <h2 className="text-4xl md:text-5xl font-bold mb-6">
+            <span className="relative">
+              <span className="relative z-10 bg-gradient-to-r from-primary via-primary-light to-primary bg-clip-text text-transparent">
+                Our Speakers
+              </span>
+              {/* Shadow text to help with rendering */}
+            </span>
+          </h2>
           <div className="w-24 h-1.5 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full"></div>
           <p className="text-lg text-gray-700 mt-6 max-w-2xl mx-auto">Connect with industry leaders and visionaries who are shaping the future of investment in Oman.</p>
         </motion.div>
