@@ -203,7 +203,7 @@ const About = () => {
                   className="relative overflow-hidden rounded-2xl shadow-2xl"
                 >
                   <img 
-                    src="https://images.unsplash.com/photo-1492551557933-34265f7af79e?q=80&w=2070&auto=format&fit=crop"
+                    src={require("../assets/img/stregis.png")} 
                     alt="Oman Investment Forum" 
                     className="w-full h-[400px] md:h-[500px] object-cover transform group-hover:scale-105 transition-transform duration-700"
                   />

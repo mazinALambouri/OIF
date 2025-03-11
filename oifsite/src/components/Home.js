@@ -65,7 +65,7 @@ const Home = () => {
         {/* Background Image (replacing video) */}
         <div className="absolute inset-0 w-full h-full z-0">
           <img 
-            src="https://images.unsplash.com/photo-1582407947304-fd86f028f716?q=80&w=2000&auto=format&fit=crop"
+           src={require("../assets/img/stregis.png")} 
             alt="Oman Investment Professional" 
             className="w-full h-full object-cover scale-105 filter brightness-[0.85]" 
             loading="lazy" 

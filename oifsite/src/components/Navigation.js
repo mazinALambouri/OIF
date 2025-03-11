@@ -54,8 +54,6 @@ const Navigation = () => {
     };
   }, []);
 
-  const isAttendancePage = location.pathname.startsWith('/attendance');
-
   return (
     <nav className="fixed z-50 w-full bg-white/55 backdrop-blur-xl shadow-sm">
       <div className="px-6 mx-auto max-w-6xl">
@@ -124,33 +122,6 @@ const Navigation = () => {
                 >
                   SPONSORS
                 </a>
-              </li>
-              <li className="relative group">
-                <button
-                  className={`nav-link transition-colors duration-300 hover:text-blue-600 ${isAttendancePage ? 'text-blue-600 font-bold' : ''}`}
-                >
-                  ATTENDANCE
-                </button>
-                <div className="absolute right-0 w-48 mt-2 py-2 bg-white rounded-md shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
-                  <Link
-                    to="/attendance"
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                  >
-                    Attendance
-                  </Link>
-                  <Link
-                    to="/attendance/records"
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                  >
-                    Records
-                  </Link>
-                  <Link
-                    to="/attendance/scan"
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                  >
-                    Scan QR
-                  </Link>
-                </div>
               </li>
             </ul>
           </div>
@@ -238,34 +209,6 @@ const Navigation = () => {
             >
               SPONSORS
             </a>
-          </li>
-          <li>
-            <button
-              onClick={toggleMobileSubmenu}
-              className={`nav-link block w-full text-left transition-colors duration-300 hover:text-blue-600 ${isAttendancePage ? 'text-blue-600 font-bold' : ''}`}
-            >
-              ATTENDANCE
-            </button>
-            <div className={`pl-4 mt-2 space-y-2 ${isMobileSubmenuOpen ? 'block' : 'hidden'}`}>
-              <Link
-                to="/attendance"
-                className="block text-sm text-gray-600 hover:text-blue-600"
-              >
-                Attendance
-              </Link>
-              <Link
-                to="/attendance/records"
-                className="block text-sm text-gray-600 hover:text-blue-600"
-              >
-                Records
-              </Link>
-              <Link
-                to="/attendance/scan"
-                className="block text-sm text-gray-600 hover:text-blue-600"
-              >
-                Scan QR
-              </Link>
-            </div>
           </li>
         </ul>
       </div>
