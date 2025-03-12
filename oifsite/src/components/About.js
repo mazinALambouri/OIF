@@ -127,7 +127,7 @@ const About = () => {
               variants={itemVariants}
               className="text-center mb-16"
             >
-              <span className="inline-block px-3 py-1 bg-secondary/30 text-primary rounded-full text-sm font-medium tracking-wider mb-3">WELCOME</span>
+              <span className="inline-block py-2 px-6 bg-secondary/30 text-primary rounded-full text-lg font-semibold tracking-wider mb-4">WELCOME</span>
               <h2 className="text-4xl md:text-5xl font-bold mb-6">
                 <span className="relative">
                   <span className="relative z-10 bg-gradient-to-r from-primary via-primary-light to-primary bg-clip-text text-transparent">

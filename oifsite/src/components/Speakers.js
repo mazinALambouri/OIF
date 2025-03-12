@@ -35,7 +35,7 @@ const Speakers = () => {
         // Fetch speakers from Supabase
         const { data, error } = await supabase
           .from('speakers')
-          .select('id, name, position, company, gender')
+          .select('id, name, position, company, gender, img')
           .order('id');
           
         if (error) {
@@ -52,8 +52,9 @@ const Speakers = () => {
               name: speaker.name,
               role: speaker.position + (speaker.company ? ` at ${speaker.company}` : ''),
               gender: speaker.gender,
-              // Use a default image based on gender or a generic avatar if gender is not specified
-              image: speaker.gender === 'female' 
+              img: speaker.img, // Store the img field from the database
+              // Use a default image based on gender if img is not available
+              fallbackImage: speaker.gender === 'female' 
                 ? "https://pagedone.io/asset/uploads/1696238396.png" 
                 : speaker.gender === 'male'
                   ? "https://pagedone.io/asset/uploads/1696238374.png"
@@ -92,11 +93,11 @@ const Speakers = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <span className="inline-block py-1 px-3 rounded-full bg-secondary/30 text-primary font-medium text-sm tracking-wider mb-2">Speakers</span>
+          <span className="inline-block py-2 px-6 rounded-full bg-secondary/30 text-primary font-semibold text-lg tracking-wider mb-4">Our Speakers</span>
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
             <span className="relative">
               <span className="relative z-10 bg-gradient-to-r from-primary via-primary-light to-primary bg-clip-text text-transparent">
-                Our Speakers
+                Speakers
               </span>
               {/* Shadow text to help with rendering */}
             </span>
@@ -156,18 +157,31 @@ const Speakers = () => {
                   className="flex flex-col items-center"
                 >
                   <div className="w-24 h-24 sm:w-32 sm:h-32 mb-3 rounded-full overflow-hidden border border-gray-200 shadow-sm">
-                    {speaker.image ? (
+                    {speaker.img ? (
                       <img 
-                        src={speaker.image} 
+                        src={speaker.img}
                         alt={speaker.name}
                         className="w-full h-full object-cover"
                       />
                     ) : (
-                      <div className="w-full h-full bg-gray-100 flex items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="h-12 w-12 text-gray-400">
-                          <path fill="currentColor" d="M12 2C9.38 2 7.25 4.13 7.25 6.75C7.25 9.32 9.26 11.4 11.88 11.49C11.96 11.48 12.04 11.48 12.1 11.49C12.12 11.49 12.13 11.49 12.15 11.49C12.16 11.49 12.16 11.49 12.17 11.49C14.73 11.4 16.74 9.32 16.75 6.75C16.75 4.13 14.62 2 12 2Z"/>
-                          <path fill="currentColor" d="M17.08 14.15C14.29 12.29 9.74 12.29 6.93 14.15C5.66 15 4.96 16.15 4.96 17.38C4.96 18.61 5.66 19.75 6.92 20.59C8.32 21.53 10.16 22 12 22C13.84 22 15.68 21.53 17.08 20.59C18.34 19.74 19.04 18.6 19.04 17.36C19.03 16.13 18.34 14.99 17.08 14.15Z"/>
-                        </svg>
+                      // Gender-specific icon fallbacks
+                      <div className="w-full h-full flex items-center justify-center bg-gray-100">
+                        {speaker.gender === 'female' ? (
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-16 h-16 text-pink-400">
+                            <path fillRule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm0 8.625a2.625 2.625 0 100-5.25 2.625 2.625 0 000 5.25z" clipRule="evenodd" />
+                            <path fillRule="evenodd" d="M12 18.75a.75.75 0 01-.75-.75v-7.5a.75.75 0 011.5 0v7.5a.75.75 0 01-.75.75z" clipRule="evenodd" />
+                            <path fillRule="evenodd" d="M9.75 12a.75.75 0 01.75-.75h3a.75.75 0 010 1.5h-3a.75.75 0 01-.75-.75z" clipRule="evenodd" />
+                          </svg>
+                        ) : speaker.gender === 'male' ? (
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-16 h-16 text-blue-400">
+                            <path fillRule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm0 8.625a2.625 2.625 0 100-5.25 2.625 2.625 0 000 5.25z" clipRule="evenodd" />
+                            <path d="M16.5 12a.75.75 0 01.75.75v4.5a.75.75 0 01-1.5 0V15h-1.5a.75.75 0 010-1.5h1.5v-1.5a.75.75 0 01.75-.75z" />
+                          </svg>
+                        ) : (
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-16 h-16 text-gray-400">
+                            <path fillRule="evenodd" d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" clipRule="evenodd" />
+                          </svg>
+                        )}
                       </div>
                     )}
                   </div>
