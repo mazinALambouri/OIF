@@ -142,19 +142,7 @@ const Home = () => {
           </div>
         </div>
         
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20">
-          <motion.div 
-            animate={{ y: [0, 10, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
-            className="flex flex-col items-center"
-          >
-            <span className="text-[#D6F0EB]/80 text-sm mb-2">Scroll Down</span>
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-[#D6F0EB]/80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-            </svg>
-          </motion.div>
-        </div>
+      
       </div>
     </section>
   );
