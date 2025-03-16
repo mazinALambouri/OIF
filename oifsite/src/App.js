@@ -7,6 +7,7 @@ import Schedule from './components/Schedule';
 import Speakers from './components/Speakers';
 import Sponsors from './components/Sponsors';
 import Footer from './components/Footer';
+import LiveStream from './components/LiveStream';
 import Attendance from './pages/Attendance';
 import AttendanceRecords from './pages/AttendanceRecords';
 import QRScanner from './pages/QRScanner';
@@ -22,6 +23,7 @@ function App() {
             <Route path="/" element={
               <>
                 <Home />
+                <LiveStream />
                 <About />
                 <Schedule />
                 <Speakers />
