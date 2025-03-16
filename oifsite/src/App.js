@@ -5,6 +5,7 @@ import Home from './components/Home';
 import About from './components/About';
 import Schedule from './components/Schedule';
 import Speakers from './components/Speakers';
+import WhyOman from './components/WhyOman';
 import Sponsors from './components/Sponsors';
 import Footer from './components/Footer';
 import LiveStream from './components/LiveStream';
@@ -27,6 +28,7 @@ function App() {
                 <About />
                 <Schedule />
                 <Speakers />
+                <WhyOman />
                 <Sponsors />
               </>
             } />
