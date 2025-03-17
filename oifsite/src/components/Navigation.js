@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import logo from '../assets/img/Oman.png';
 
 const Navigation = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobileSubmenuOpen, setIsMobileSubmenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
+  const [prevSection, setPrevSection] = useState(null);
+  const [scrollDirection, setScrollDirection] = useState('down');
+  const [lastScrollY, setLastScrollY] = useState(0);
   const location = useLocation();
 
   const toggleMobileMenu = () => {
@@ -19,11 +23,39 @@ const Navigation = () => {
 
   const scrollToSection = (sectionId, e) => {
     e.preventDefault();
+    setPrevSection(activeSection);
+    setActiveSection(sectionId);
+    
+    // Get the current section and target section elements
     const element = document.getElementById(sectionId);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-      setActiveSection(sectionId);
+      // Custom smooth scroll with animation
+      const startPosition = window.pageYOffset;
+      const targetPosition = element.getBoundingClientRect().top + window.pageYOffset;
+      const distance = targetPosition - startPosition;
+      const duration = 1000;
+      let start = null;
+      
+      function step(timestamp) {
+        if (!start) start = timestamp;
+        const progress = timestamp - start;
+        const percentage = Math.min(progress / duration, 1);
+        
+        // Easing function for smooth acceleration/deceleration
+        const easeInOutCubic = t => t < 0.5 
+          ? 4 * t * t * t 
+          : 1 - Math.pow(-2 * t + 2, 3) / 2;
+        
+        window.scrollTo(0, startPosition + distance * easeInOutCubic(percentage));
+        
+        if (progress < duration) {
+          window.requestAnimationFrame(step);
+        }
+      }
+      
+      window.requestAnimationFrame(step);
     }
+    
     // Close mobile menu if it's open
     if (isMobileMenuOpen) {
       setIsMobileMenuOpen(false);
@@ -34,14 +66,27 @@ const Navigation = () => {
   useEffect(() => {
     const handleScroll = () => {
       const sections = ['home', 'about', 'schedule', 'speakers', 'sponsors'];
+      const currentScrollY = window.pageYOffset;
       
+      // Determine scroll direction
+      if (currentScrollY > lastScrollY) {
+        setScrollDirection('down');
+      } else {
+        setScrollDirection('up');
+      }
+      setLastScrollY(currentScrollY);
+      
+      // Find the active section
       for (const section of sections) {
         const element = document.getElementById(section);
         if (element) {
           const rect = element.getBoundingClientRect();
           // If the section is in the viewport (with some buffer for better UX)
-          if (rect.top <= 150 && rect.bottom >= 150) {
-            setActiveSection(section);
+          if (rect.top <= 100 && rect.bottom >= 100) {
+            if (activeSection !== section) {
+              setPrevSection(activeSection);
+              setActiveSection(section);
+            }
             break;
           }
         }
@@ -52,167 +97,311 @@ const Navigation = () => {
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, []);
+  }, [activeSection, lastScrollY]);
+
+  // Animation variants
+  const navVariants = {
+    hidden: { opacity: 0, y: -20 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { 
+        duration: 0.5,
+        staggerChildren: 0.1,
+        delayChildren: 0.2
+      }
+    }
+  };
+  
+  const linkVariants = {
+    hidden: { opacity: 0, y: -10 },
+    visible: { opacity: 1, y: 0 }
+  };
+  
+  const mobileMenuVariants = {
+    hidden: { opacity: 0, height: 0 },
+    visible: { 
+      opacity: 1, 
+      height: 'auto',
+      transition: {
+        duration: 0.3,
+        when: "beforeChildren",
+        staggerChildren: 0.1
+      }
+    },
+    exit: {
+      opacity: 0,
+      height: 0,
+      transition: {
+        duration: 0.3
+      }
+    }
+  };
+  
+  const mobileLinkVariants = {
+    hidden: { opacity: 0, x: -20 },
+    visible: { opacity: 1, x: 0 }
+  };
 
   return (
-    <nav className="fixed z-50 w-full bg-white/55 backdrop-blur-xl shadow-sm">
+    <motion.nav 
+      className="fixed z-50 w-full bg-white/55 backdrop-blur-xl shadow-sm"
+      initial="hidden"
+      animate="visible"
+      variants={navVariants}
+    >
       <div className="px-6 mx-auto max-w-6xl">
         <div className="flex items-center justify-between py-2 sm:py-4">
           {/* Left side: Logo */}
-          <div className="flex-shrink-0 pl-2">
+          <motion.div 
+            className="flex-shrink-0 pl-2"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5 }}
+          >
             <Link to="/" className="scroll-smooth" aria-label="Logo">
-              <img src={logo} alt="Logo" className="h-8" />
+              <motion.img 
+                src={logo} 
+                alt="Logo" 
+                className="h-8" 
+                whileHover={{ scale: 1.05 }}
+                transition={{ type: "spring", stiffness: 300 }}
+              />
             </Link>
-          </div>
+          </motion.div>
           
           {/* Center: Navigation links */}
           <div className="flex-grow flex justify-center">
             {/* Desktop nav links */}
-            <ul className="hidden lg:flex space-x-8">
-              <li>
+            <motion.ul className="hidden lg:flex space-x-8" variants={navVariants}>
+              <motion.li variants={linkVariants}>
                 {location.pathname === "/" ? (
-                  <a 
+                  <motion.a 
                     href="#home" 
                     onClick={(e) => scrollToSection('home', e)} 
                     className={`nav-link transition-colors duration-300 hover:text-primary ${activeSection === 'home' ? 'text-primary font-bold' : ''}`}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
                   >
                     HOME
-                  </a>
+                    {activeSection === 'home' && (
+                      <motion.div 
+                        className="h-0.5 bg-primary rounded-full mt-1"
+                        layoutId="activeSection"
+                        transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                      />
+                    )}
+                  </motion.a>
                 ) : (
-                  <Link 
-                    to="/"
-                    className="nav-link transition-colors duration-300 hover:text-primary"
+                  <motion.div 
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
                   >
-                    HOME
-                  </Link>
+                    <Link 
+                      to="/"
+                      className="nav-link transition-colors duration-300 hover:text-primary"
+                    >
+                      HOME
+                    </Link>
+                  </motion.div>
                 )}
-              </li>
-              <li>
-                <a 
+              </motion.li>
+              <motion.li variants={linkVariants}>
+                <motion.a 
                   href="#about" 
                   onClick={(e) => scrollToSection('about', e)} 
                   className={`nav-link transition-colors duration-300 hover:text-primary ${activeSection === 'about' ? 'text-primary font-bold' : ''}`}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                 >
                   ABOUT
-                </a>
-              </li>
-              <li>
-                <a 
+                  {activeSection === 'about' && (
+                    <motion.div 
+                      className="h-0.5 bg-primary rounded-full mt-1"
+                      layoutId="activeSection"
+                      transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                    />
+                  )}
+                </motion.a>
+              </motion.li>
+              <motion.li variants={linkVariants}>
+                <motion.a 
                   href="#schedule" 
                   onClick={(e) => scrollToSection('schedule', e)} 
                   className={`nav-link transition-colors duration-300 hover:text-primary ${activeSection === 'schedule' ? 'text-primary font-bold' : ''}`}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                 >
                   SCHEDULE
-                </a>
-              </li>
-              <li>
-                <a 
+                  {activeSection === 'schedule' && (
+                    <motion.div 
+                      className="h-0.5 bg-primary rounded-full mt-1"
+                      layoutId="activeSection"
+                      transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                    />
+                  )}
+                </motion.a>
+              </motion.li>
+              <motion.li variants={linkVariants}>
+                <motion.a 
                   href="#speakers" 
                   onClick={(e) => scrollToSection('speakers', e)} 
                   className={`nav-link transition-colors duration-300 hover:text-primary ${activeSection === 'speakers' ? 'text-primary font-bold' : ''}`}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                 >
                   SPEAKERS
-                </a>
-              </li>
-              <li>
-                <a 
+                  {activeSection === 'speakers' && (
+                    <motion.div 
+                      className="h-0.5 bg-primary rounded-full mt-1"
+                      layoutId="activeSection"
+                      transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                    />
+                  )}
+                </motion.a>
+              </motion.li>
+              <motion.li variants={linkVariants}>
+                <motion.a 
                   href="#sponsors" 
                   onClick={(e) => scrollToSection('sponsors', e)} 
                   className={`nav-link transition-colors duration-300 hover:text-primary ${activeSection === 'sponsors' ? 'text-primary font-bold' : ''}`}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                 >
                   SPONSORS
-                </a>
-              </li>
-            </ul>
+                  {activeSection === 'sponsors' && (
+                    <motion.div 
+                      className="h-0.5 bg-primary rounded-full mt-1"
+                      layoutId="activeSection"
+                      transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                    />
+                  )}
+                </motion.a>
+              </motion.li>
+            </motion.ul>
           </div>
           
           {/* Right side: Mobile menu button */}
-          <div className="flex-shrink-0">
+          <motion.div 
+            className="flex-shrink-0"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5 }}
+          >
             {/* Mobile menu toggle */}
-            <button 
+            <motion.button 
               onClick={toggleMobileMenu}
               aria-label="Toggle menu" 
               aria-expanded={isMobileMenuOpen}
               className="lg:hidden p-2 rounded-lg hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-primary transition-colors duration-200"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
-              <svg 
-                className={`w-6 h-6 transition-transform duration-300 ${isMobileMenuOpen ? 'rotate-45' : ''}`}
+              <motion.svg 
+                className="w-6 h-6"
                 xmlns="http://www.w3.org/2000/svg" 
                 fill="none" 
                 viewBox="0 0 24 24" 
                 stroke="currentColor"
+                animate={isMobileMenuOpen ? { rotate: 90 } : { rotate: 0 }}
+                transition={{ duration: 0.3 }}
               >
                 {isMobileMenuOpen ? (
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
                 ) : (
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
                 )}
-              </svg>
-            </button>
-          </div>
+              </motion.svg>
+            </motion.button>
+          </motion.div>
         </div>
       </div>
       
       {/* Mobile menu */}
-      <div className={`lg:hidden bg-white shadow-md ${isMobileMenuOpen ? '' : 'hidden'}`}>
-        <ul className="flex flex-col space-y-4 p-4">
-          <li>
-            {location.pathname === "/" ? (
-              <a 
-                href="#home" 
-                onClick={(e) => scrollToSection('home', e)} 
-                className={`nav-link block transition-colors duration-300 hover:text-primary ${activeSection === 'home' ? 'text-primary font-bold' : ''}`}
-              >
-                HOME
-              </a>
-            ) : (
-              <Link 
-                to="/"
-                className="nav-link block transition-colors duration-300 hover:text-primary"
-              >
-                HOME
-              </Link>
-            )}
-          </li>
-          <li>
-            <a 
-              href="#about" 
-              onClick={(e) => scrollToSection('about', e)} 
-              className={`nav-link block transition-colors duration-300 hover:text-primary ${activeSection === 'about' ? 'text-primary font-bold' : ''}`}
-            >
-              ABOUT
-            </a>
-          </li>
-          <li>
-            <a 
-              href="#schedule" 
-              onClick={(e) => scrollToSection('schedule', e)} 
-              className={`nav-link block transition-colors duration-300 hover:text-primary ${activeSection === 'schedule' ? 'text-primary font-bold' : ''}`}
-            >
-              SCHEDULE
-            </a>
-          </li>
-          <li>
-            <a 
-              href="#speakers" 
-              onClick={(e) => scrollToSection('speakers', e)} 
-              className={`nav-link block transition-colors duration-300 hover:text-primary ${activeSection === 'speakers' ? 'text-primary font-bold' : ''}`}
-            >
-              SPEAKERS
-            </a>
-          </li>
-          <li>
-            <a 
-              href="#sponsors" 
-              onClick={(e) => scrollToSection('sponsors', e)} 
-              className={`nav-link block transition-colors duration-300 hover:text-primary ${activeSection === 'sponsors' ? 'text-primary font-bold' : ''}`}
-            >
-              SPONSORS
-            </a>
-          </li>
-        </ul>
-      </div>
-    </nav>
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div 
+            className="lg:hidden bg-white shadow-md"
+            variants={mobileMenuVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+          >
+            <motion.ul className="flex flex-col space-y-4 p-4">
+              <motion.li variants={mobileLinkVariants}>
+                {location.pathname === "/" ? (
+                  <motion.a 
+                    href="#home" 
+                    onClick={(e) => scrollToSection('home', e)} 
+                    className={`nav-link block transition-colors duration-300 hover:text-primary ${activeSection === 'home' ? 'text-primary font-bold' : ''}`}
+                    whileHover={{ x: 5 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    HOME
+                  </motion.a>
+                ) : (
+                  <motion.div
+                    whileHover={{ x: 5 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <Link 
+                      to="/"
+                      className="nav-link block transition-colors duration-300 hover:text-primary"
+                    >
+                      HOME
+                    </Link>
+                  </motion.div>
+                )}
+              </motion.li>
+              <motion.li variants={mobileLinkVariants}>
+                <motion.a 
+                  href="#about" 
+                  onClick={(e) => scrollToSection('about', e)} 
+                  className={`nav-link block transition-colors duration-300 hover:text-primary ${activeSection === 'about' ? 'text-primary font-bold' : ''}`}
+                  whileHover={{ x: 5 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  ABOUT
+                </motion.a>
+              </motion.li>
+              <motion.li variants={mobileLinkVariants}>
+                <motion.a 
+                  href="#schedule" 
+                  onClick={(e) => scrollToSection('schedule', e)} 
+                  className={`nav-link block transition-colors duration-300 hover:text-primary ${activeSection === 'schedule' ? 'text-primary font-bold' : ''}`}
+                  whileHover={{ x: 5 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  SCHEDULE
+                </motion.a>
+              </motion.li>
+              <motion.li variants={mobileLinkVariants}>
+                <motion.a 
+                  href="#speakers" 
+                  onClick={(e) => scrollToSection('speakers', e)} 
+                  className={`nav-link block transition-colors duration-300 hover:text-primary ${activeSection === 'speakers' ? 'text-primary font-bold' : ''}`}
+                  whileHover={{ x: 5 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  SPEAKERS
+                </motion.a>
+              </motion.li>
+              <motion.li variants={mobileLinkVariants}>
+                <motion.a 
+                  href="#sponsors" 
+                  onClick={(e) => scrollToSection('sponsors', e)} 
+                  className={`nav-link block transition-colors duration-300 hover:text-primary ${activeSection === 'sponsors' ? 'text-primary font-bold' : ''}`}
+                  whileHover={{ x: 5 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  SPONSORS
+                </motion.a>
+              </motion.li>
+            </motion.ul>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.nav>
   );
 };
 

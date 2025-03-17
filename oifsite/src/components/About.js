@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../supabaseClient.js';
-import { motion } from 'framer-motion';
+import { motion, useMotionValue, useTransform, animate } from 'framer-motion';
 
 const About = () => {
   const [overviewData, setOverviewData] = useState(null);
@@ -78,6 +78,23 @@ const About = () => {
         damping: 12
       }
     }
+  };
+
+  // Number counter animation component
+  const Counter = ({ from = 0, to, duration = 2.5 }) => {
+    const count = useMotionValue(from);
+    const rounded = useTransform(count, latest => Math.round(latest));
+    
+    useEffect(() => {
+      const controls = animate(count, to, { 
+        duration: duration,
+        ease: "easeOut",
+      });
+      
+      return controls.stop;
+    }, [count, to, duration]);
+    
+    return <motion.span>{rounded}</motion.span>;
   };
 
   return (
@@ -177,7 +194,11 @@ const About = () => {
                     className="bg-gradient-to-br from-secondary/20 to-white rounded-2xl p-6 shadow-xl border border-secondary/20 transition-all duration-300"
                   >
                     <div className="text-4xl font-bold bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent">
-                      {overviewData.attendance_info ? overviewData.attendance_info.split('+')[0] : "500"}+
+                      <Counter 
+                        to={parseInt(overviewData?.attendance_info?.split('+')[0] || "500")} 
+                        duration={2.5}
+                      />
+                      <span>+</span>
                     </div>
                     <div className="text-gray-600 font-medium mt-2">Global Attendees</div>
                   </motion.div>
@@ -187,7 +208,10 @@ const About = () => {
                     whileHover={{ scale: 1.05 }}
                     className="bg-gradient-to-br from-primary/10 to-white rounded-2xl p-6 shadow-xl border border-primary/10 transition-all duration-300"
                   >
-                    <div className="text-4xl font-bold bg-gradient-to-r from-primary-light to-primary bg-clip-text text-transparent">50+</div>
+                    <div className="text-4xl font-bold bg-gradient-to-r from-primary-light to-primary bg-clip-text text-transparent">
+                      <Counter to={50} duration={2} />
+                      <span>+</span>
+                    </div>
                     <div className="text-gray-600 font-medium mt-2">Expert Speakers</div>
                   </motion.div>
                 </motion.div>

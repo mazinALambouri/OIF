@@ -276,28 +276,55 @@ const Schedule = () => {
                       className="transition-all duration-500"
                     >
                       {/* Day Header */}
-                      <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-10 pb-6 border-b border-gray-200">
+                      <motion.div 
+                        className="flex flex-col md:flex-row md:items-end md:justify-between mb-10 pb-6 border-b border-gray-200"
+                        initial={{ opacity: 0, y: -20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5 }}
+                      >
                         <div>
-                          <h3 className="text-3xl font-bold text-gray-800 flex items-center">
+                          <motion.h3 
+                            className="text-3xl font-bold text-gray-800 flex items-center"
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.5, delay: 0.2 }}
+                          >
                             <span className="bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent">{data.title}</span>
-                            <span className="ml-3 px-3 py-1 text-xs font-semibold bg-primary/10 text-primary rounded-full">{data.events.length} Events</span>
-                          </h3>
-                          <p className="text-gray-500 flex items-center mt-2">
+                            <motion.span 
+                              className="ml-3 px-3 py-1 text-xs font-semibold bg-primary/10 text-primary rounded-full"
+                              initial={{ scale: 0 }}
+                              animate={{ scale: 1 }}
+                              transition={{ type: "spring", stiffness: 260, damping: 20, delay: 0.4 }}
+                            >
+                              {data.events.length} Events
+                            </motion.span>
+                          </motion.h3>
+                          <motion.p 
+                            className="text-gray-500 flex items-center mt-2"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ duration: 0.5, delay: 0.6 }}
+                          >
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                             </svg>
                             {data.date}
-                          </p>
+                          </motion.p>
                         </div>
-                      </div>
+                      </motion.div>
                       
                       {/* Modern Timeline Layout */}
-                      <div className="relative">
-                        {/* Stylish Timeline Line */}
-                        <div className="absolute left-6 md:left-8 top-0 bottom-0 w-[2px] bg-gradient-to-b from-primary/80 to-primary/40 z-0">
+                      <div className="relative bg-white rounded-xl shadow-lg border border-gray-100 p-6">
+                        {/* Stylish Timeline Line with Glow */}
+                        <motion.div 
+                          className="absolute left-6 md:left-8 top-0 bottom-0 w-[2px] bg-gradient-to-b from-primary/80 via-primary/60 to-primary/40 z-0 rounded-full after:absolute after:inset-0 after:blur-[2px] after:bg-primary/30 after:rounded-full"
+                          initial={{ height: 0 }}
+                          animate={{ height: "100%" }}
+                          transition={{ duration: 1, ease: "easeInOut" }}
+                        >
                           {/* Decorative elements along the timeline */}
                           <div className="absolute inset-0 bg-[length:100%_10px] bg-[linear-gradient(to_bottom,transparent_5px,rgba(255,255,255,0.3)_6px,transparent_6px)]"></div>
-                        </div>
+                        </motion.div>
                         
                         {/* Scrollable Timeline Container */}
                         <div className="max-h-[500px] overflow-y-auto pr-4 custom-scrollbar">
@@ -315,24 +342,56 @@ const Schedule = () => {
                               >
                                 {/* Modern Timeline Node */}
                                 <div className="absolute left-4 md:left-6 top-6 z-10">
+                                  {/* Horizontal connector line */}
+                                  <div className="absolute w-4 h-[2px] bg-primary/60 right-full top-1/2 -translate-y-1/2">
+                                    <motion.div 
+                                      className="absolute inset-0 bg-primary/80"
+                                      initial={{ scaleX: 0 }}
+                                      animate={{ scaleX: 1 }}
+                                      transition={{ duration: 0.5, delay: index * 0.1 }}
+                                    />
+                                  </div>
+                                  
                                   {/* Stylish node with animation */}
                                   <motion.div 
-                                    className="w-4 h-4 rounded-full bg-white shadow-[0_0_0_3px_rgba(var(--color-primary-rgb),0.15)]"
-                                    initial={{ scale: 0.8 }}
-                                    animate={{ scale: [0.8, 1, 0.8], 
-                                              boxShadow: [
-                                                "0 0 0 3px rgba(var(--color-primary-rgb),0.15)", 
-                                                "0 0 0 5px rgba(var(--color-primary-rgb),0.1)", 
-                                                "0 0 0 3px rgba(var(--color-primary-rgb),0.15)"
-                                              ] 
-                                            }}
+                                    className="w-6 h-6 rounded-full bg-white shadow-[0_0_0_4px_rgba(var(--color-primary-rgb),0.2)] flex items-center justify-center"
+                                    initial={{ scale: 0 }}
+                                    animate={{ 
+                                      scale: 1,
+                                      boxShadow: [
+                                        "0 0 0 4px rgba(var(--color-primary-rgb),0.2)",
+                                        "0 0 0 6px rgba(var(--color-primary-rgb),0.15)",
+                                        "0 0 0 4px rgba(var(--color-primary-rgb),0.2)"
+                                      ]
+                                    }}
                                     transition={{ 
-                                      duration: 3, 
-                                      repeat: Infinity,
-                                      repeatType: "reverse"
+                                      scale: {
+                                        type: "spring", 
+                                        stiffness: 260, 
+                                        damping: 20,
+                                        delay: index * 0.1 + 0.2
+                                      },
+                                      boxShadow: {
+                                        duration: 3,
+                                        repeat: Infinity,
+                                        repeatType: "reverse",
+                                        delay: index * 0.1 + 1
+                                      }
                                     }}
                                   >
-                                    <div className="w-full h-full rounded-full bg-primary"></div>
+                                    <motion.div 
+                                      className="w-3 h-3 rounded-full bg-primary"
+                                      animate={{ 
+                                        scale: [1, 1.2, 1],
+                                        opacity: [1, 0.8, 1]
+                                      }}
+                                      transition={{
+                                        duration: 2,
+                                        repeat: Infinity,
+                                        repeatType: "reverse",
+                                        delay: index * 0.1 + 1.5
+                                      }}
+                                    />
                                   </motion.div>
                                 </div>
                                 
@@ -341,6 +400,13 @@ const Schedule = () => {
                                   className={`group bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 border-l-4 border-l-primary border-t-0 border-r-0 border-b-0 flex flex-col ${
                                     expandedEvent === event.id ? 'bg-gray-50' : ''
                                   }`}
+                                  initial={{ opacity: 0, x: -20 }}
+                                  animate={{ opacity: 1, x: 0 }}
+                                  transition={{ 
+                                    duration: 0.5, 
+                                    delay: index * 0.15 + 0.3,
+                                    ease: "easeOut" 
+                                  }}
                                   whileHover={{ x: 4, transition: { duration: 0.2 } }}
                                 >
                                   <div className="p-4 flex-grow flex flex-col">
