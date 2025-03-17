@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { supabase } from '../supabaseClient.js';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const Schedule = () => {
   const [activeTab, setActiveTab] = useState('day1');
@@ -8,6 +8,8 @@ const Schedule = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [days, setDays] = useState([]);
+  const [expandedEvent, setExpandedEvent] = useState(null);
+  const containerRef = useRef(null);
 
   useEffect(() => {
     const fetchSchedule = async () => {
@@ -17,7 +19,7 @@ const Schedule = () => {
         // Fetch schedule from Supabase
         const { data, error } = await supabase
           .from('schedule')
-          .select('id, created_at, day_label, time, title, description, location')
+          .select('id, created_at, day_label, time, title, description')
           .order('id');
           
         if (error) {
@@ -44,10 +46,10 @@ const Schedule = () => {
             }
             
             acc[dayKey].events.push({
+              id: event.id,
               time: event.time,
               title: event.title,
-              description: event.description,
-              location: event.location
+              description: event.description
             });
             
             return acc;
@@ -83,13 +85,50 @@ const Schedule = () => {
     fetchSchedule();
   }, [activeTab]);
 
+  useEffect(() => {
+    // Add custom scrollbar styles and CSS variables
+    const style = document.createElement('style');
+    style.textContent = `
+      :root {
+        --color-primary-rgb: 79, 70, 229;
+      }
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 6px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 10px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #d1d5db;
+        border-radius: 10px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: #9ca3af;
+      }
+    `;
+    document.head.appendChild(style);
+    
+    return () => {
+      document.head.removeChild(style);
+    };
+  }, []);
+
+  const toggleEventExpansion = (eventId) => {
+    if (expandedEvent === eventId) {
+      setExpandedEvent(null);
+    } else {
+      setExpandedEvent(eventId);
+    }
+  };
+
   // Animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: { 
       opacity: 1,
       transition: { 
-        staggerChildren: 0.1
+        staggerChildren: 0.08
       }
     }
   };
@@ -106,15 +145,26 @@ const Schedule = () => {
     }
   };
 
+  // Format time to be more readable
+  const formatTime = (timeString) => {
+    if (!timeString) return '';
+    
+    // Simple formatting - can be enhanced based on your time format
+    return timeString;
+  };
+
   return (
-    <section id="schedule" className="py-20 relative bg-gradient-to-b from-white to-secondary/20">
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -right-20 top-20 w-80 h-80 bg-primary/10 rounded-full filter blur-3xl"></div>
-        <div className="absolute -left-20 bottom-20 w-80 h-80 bg-secondary/30 rounded-full filter blur-3xl"></div>
+    <section id="schedule" className="py-20 relative overflow-hidden">
+      {/* Background Elements */}
+      <div className="absolute inset-0 bg-gradient-to-b from-white via-gray-50 to-white/80"></div>
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden">
+        <div className="absolute -right-20 top-20 w-80 h-80 bg-primary/5 rounded-full filter blur-3xl"></div>
+        <div className="absolute -left-20 bottom-20 w-80 h-80 bg-secondary/10 rounded-full filter blur-3xl"></div>
         <div className="absolute left-1/2 top-1/3 w-60 h-60 bg-primary/5 rounded-full filter blur-3xl"></div>
+        <div className="absolute right-1/4 bottom-1/4 w-40 h-40 bg-secondary/5 rounded-full filter blur-2xl"></div>
       </div>
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Header */}
         <motion.div 
           className="text-center mb-16"
@@ -122,18 +172,17 @@ const Schedule = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <span className="inline-block py-2 px-6 rounded-full bg-secondary/30 text-primary font-semibold text-lg tracking-wider mb-4">PROGRAM</span>
+          <span className="inline-block py-2 px-6 rounded-full bg-secondary/20 text-primary font-semibold text-sm tracking-wider mb-4 uppercase">PROGRAM SCHEDULE</span>
 
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
             <span className="relative">
               <span className="relative z-10 bg-gradient-to-r from-primary via-primary-light to-primary bg-clip-text text-transparent">
-                Featured Agenda & Highlights
+              FEATURED AGENDA & HIGHLIGHTS
               </span>
-              {/* Shadow text to help with rendering */}
             </span>
           </h2>
-          <div className="w-24 h-1.5 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full"></div>
-          <p className="text-lg text-gray-700 mt-6 max-w-2xl mx-auto">Explore the key highlights and sessions of each day</p>
+          <div className="w-24 h-1 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full"></div>
+          <p className="text-lg text-gray-600 mt-6 max-w-2xl mx-auto">Explore the key highlights and sessions of each day</p>
         </motion.div>
 
         {/* Loading State */}
@@ -169,93 +218,185 @@ const Schedule = () => {
 
         {!loading && !error && days.length > 0 && (
           <>
-            {/* Tab Navigation */}
-            <motion.div 
-              className="flex flex-wrap justify-center gap-3 mb-10"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-            >
-              {days.map((day, index) => (
-                <motion.button
-                  key={day}
-                  onClick={() => setActiveTab(day)}
-                  className={`px-6 py-3 rounded-full font-medium transition-all duration-300 text-sm
-                    ${activeTab === day 
-                      ? 'bg-gradient-to-r from-primary to-secondary text-white shadow-lg shadow-primary/20' 
-                      : 'bg-white text-gray-700 hover:bg-gray-50 hover:shadow-md border border-gray-200'
-                    }`}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  Day {index + 1}
-                </motion.button>
-              ))}
-            </motion.div>
+            {/* Improved Day Tabs */}
+            <div className="mb-12">
+              <div className="max-w-3xl mx-auto bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg p-3 relative overflow-hidden">
+                {/* Background decoration */}
+                <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-secondary/5 z-0"></div>
+                
+                {/* Tabs container */}
+                <div className="relative z-10 flex flex-wrap justify-center gap-2">
+                  {days.map((day, index) => (
+                    <motion.button
+                      key={day}
+                      onClick={() => setActiveTab(day)}
+                      className={`relative px-8 py-3 rounded-xl font-medium text-sm transition-all duration-300 overflow-hidden ${
+                        activeTab === day 
+                          ? 'text-white' 
+                          : 'text-gray-600 hover:text-gray-800 hover:bg-white/60'
+                      }`}
+                      whileHover={{ y: -2 }}
+                      whileTap={{ scale: 0.97 }}
+                    >
+                      {/* Active background */}
+                      {activeTab === day && (
+                        <motion.div 
+                          className="absolute inset-0 bg-primary rounded-xl z-0"
+                          layoutId="activeDayTab"
+                          transition={{ type: "spring", duration: 0.5 }}
+                        />
+                      )}
+                      
+                      {/* Day label with icon */}
+                      <div className="relative z-10 flex items-center justify-center">
+                        <span className={`mr-2 ${activeTab === day ? 'text-white' : 'text-primary'}`}>
+                          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                          </svg>
+                        </span>
+                        <span>Day {index + 1}</span>
+                      </div>
+                    </motion.button>
+                  ))}
+                </div>
+              </div>
+            </div>
 
             {/* Tab Contents */}
-            <div className="tab-contents relative">
+            <div className="tab-contents relative" ref={containerRef}>
               {Object.entries(scheduleData).map(([day, data]) => (
-                <div
-                  key={day}
-                  className={`transition-all duration-500 ${activeTab === day ? 'block' : 'hidden'}`}
-                >
-                  <motion.div 
-                    className="bg-white rounded-2xl shadow-xl p-6 sm:p-8 hover:shadow-2xl transition-all duration-300 border border-gray-100"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.5 }}
-                  >
-                    <div className="mb-8 border-b border-gray-100 pb-6">
-                      <h3 className="text-2xl font-bold text-primary">{data.title}</h3>
-                      <p className="text-gray-600 flex items-center mt-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                        </svg>
-                        {data.date}
-                      </p>
-                    </div>
-                    
-                    <motion.div 
-                      className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
-                      variants={containerVariants}
-                      initial="hidden"
-                      animate="visible"
+                <AnimatePresence key={day} mode="wait">
+                  {activeTab === day && (
+                    <motion.div
+                      key={day}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -20 }}
+                      transition={{ duration: 0.4 }}
+                      className="transition-all duration-500"
                     >
-                      {data.events.map((event, index) => (
-                        <motion.div 
-                          key={index}
-                          className="schedule-item bg-gradient-to-br from-white to-secondary/20 rounded-xl p-6 transition-all duration-300 hover:shadow-lg border border-secondary/30 relative overflow-hidden group"
-                          variants={itemVariants}
-                        >
-                          <div className="absolute top-0 right-0 w-20 h-20 bg-secondary/30 rounded-bl-full opacity-50 -mr-10 -mt-10 group-hover:scale-150 transition-transform duration-500"></div>
-                          
-                          <div className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-secondary/30 mb-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      {/* Day Header */}
+                      <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-10 pb-6 border-b border-gray-200">
+                        <div>
+                          <h3 className="text-3xl font-bold text-gray-800 flex items-center">
+                            <span className="bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent">{data.title}</span>
+                            <span className="ml-3 px-3 py-1 text-xs font-semibold bg-primary/10 text-primary rounded-full">{data.events.length} Events</span>
+                          </h3>
+                          <p className="text-gray-500 flex items-center mt-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                             </svg>
-                          </div>
-                          
-                          <p className="text-primary font-semibold text-sm bg-secondary/20 inline-block px-3 py-1 rounded-full">{event.time}</p>
-                          <h4 className="text-xl font-bold mt-3 text-gray-800">{event.title}</h4>
-                          <p className="text-gray-600 mt-3 text-sm leading-relaxed">{event.description}</p>
-                          
-                          {event.location && (
-                            <div className="mt-4 pt-4 border-t border-secondary/30">
-                              <p className="text-gray-500 text-sm flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                                </svg>
-                                {event.location}
-                              </p>
-                            </div>
-                          )}
-                        </motion.div>
-                      ))}
+                            {data.date}
+                          </p>
+                        </div>
+                      </div>
+                      
+                      {/* Modern Timeline Layout */}
+                      <div className="relative">
+                        {/* Stylish Timeline Line */}
+                        <div className="absolute left-6 md:left-8 top-0 bottom-0 w-[2px] bg-gradient-to-b from-primary/80 to-primary/40 z-0">
+                          {/* Decorative elements along the timeline */}
+                          <div className="absolute inset-0 bg-[length:100%_10px] bg-[linear-gradient(to_bottom,transparent_5px,rgba(255,255,255,0.3)_6px,transparent_6px)]"></div>
+                        </div>
+                        
+                        {/* Scrollable Timeline Container */}
+                        <div className="max-h-[500px] overflow-y-auto pr-4 custom-scrollbar">
+                          <motion.div 
+                            className="grid grid-cols-1 gap-5"
+                            variants={containerVariants}
+                            initial="hidden"
+                            animate="visible"
+                          >
+                            {data.events.map((event, index) => (
+                              <motion.div 
+                                key={event.id}
+                                className="relative pl-16 md:pl-20"
+                                variants={itemVariants}
+                              >
+                                {/* Modern Timeline Node */}
+                                <div className="absolute left-4 md:left-6 top-6 z-10">
+                                  {/* Stylish node with animation */}
+                                  <motion.div 
+                                    className="w-4 h-4 rounded-full bg-white shadow-[0_0_0_3px_rgba(var(--color-primary-rgb),0.15)]"
+                                    initial={{ scale: 0.8 }}
+                                    animate={{ scale: [0.8, 1, 0.8], 
+                                              boxShadow: [
+                                                "0 0 0 3px rgba(var(--color-primary-rgb),0.15)", 
+                                                "0 0 0 5px rgba(var(--color-primary-rgb),0.1)", 
+                                                "0 0 0 3px rgba(var(--color-primary-rgb),0.15)"
+                                              ] 
+                                            }}
+                                    transition={{ 
+                                      duration: 3, 
+                                      repeat: Infinity,
+                                      repeatType: "reverse"
+                                    }}
+                                  >
+                                    <div className="w-full h-full rounded-full bg-primary"></div>
+                                  </motion.div>
+                                </div>
+                                
+                                {/* Modern Minimalist Event Card */}
+                                <motion.div 
+                                  className={`group bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 border-l-4 border-l-primary border-t-0 border-r-0 border-b-0 flex flex-col ${
+                                    expandedEvent === event.id ? 'bg-gray-50' : ''
+                                  }`}
+                                  whileHover={{ x: 4, transition: { duration: 0.2 } }}
+                                >
+                                  <div className="p-4 flex-grow flex flex-col">
+                                    {/* Header with Time and Title */}
+                                    <div className="flex flex-col space-y-1 mb-2">
+                                      {/* Time Display */}
+                                      <div className="text-primary text-sm font-medium flex items-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                        {formatTime(event.time)}
+                                      </div>
+                                      
+                                      {/* Title */}
+                                      <h4 className="text-base font-bold text-gray-800 group-hover:text-primary transition-colors duration-300">
+                                        {event.title}
+                                      </h4>
+                                    </div>
+                                    
+                                    {/* Description with clean styling */}
+                                    <div className="mt-1 flex-grow">
+                                      <motion.div
+                                        initial={false}
+                                        animate={{ 
+                                          height: expandedEvent === event.id ? 'auto' : '1.5rem',
+                                          opacity: 1
+                                        }}
+                                        transition={{ duration: 0.3 }}
+                                        className="overflow-hidden"
+                                      >
+                                        <p className="text-gray-500 text-xs leading-relaxed">
+                                          {event.description}
+                                        </p>
+                                      </motion.div>
+                                    </div>
+                                    
+                                    {/* Minimal Expand/Collapse Button */}
+                                    <div className="mt-2 flex justify-end">
+                                      <motion.button 
+                                        onClick={() => toggleEventExpansion(event.id)}
+                                        className="text-xs font-medium text-primary hover:text-primary-dark"
+                                        whileTap={{ scale: 0.97 }}
+                                      >
+                                        {expandedEvent === event.id ? 'Show less' : 'Read more'}
+                                      </motion.button>
+                                    </div>
+                                  </div>
+                                </motion.div>
+                              </motion.div>
+                            ))}
+                          </motion.div>
+                        </div>
+                      </div>
                     </motion.div>
-                  </motion.div>
-                </div>
+                  )}
+                </AnimatePresence>
               ))}
             </div>
           </>
@@ -280,4 +421,4 @@ const Schedule = () => {
   );
 };
 
-export default Schedule; 
+export default Schedule;

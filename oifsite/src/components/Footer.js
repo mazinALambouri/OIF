@@ -17,19 +17,16 @@ const Footer = () => {
         
         {/* Social Media */}
         <div className="flex justify-center space-x-6 mb-12">
-          <a href="#" className="text-gray-800 hover:text-[#1877F2] transition-colors duration-300">
-            <i className="fab fa-facebook text-2xl"></i>
+          <a href="https://twitter.com/investinom" target="_blank" rel="noopener noreferrer" className="text-gray-800 hover:text-black transition-colors duration-300">
+            <i className="fab fa-x-twitter text-2xl"></i>
           </a>
-          <a href="#" className="text-gray-800 hover:text-[#1DA1F2] transition-colors duration-300">
-            <i className="fab fa-twitter text-2xl"></i>
-          </a>
-          <a href="#" className="text-gray-800 hover:text-[#E4405F] transition-colors duration-300">
+          <a href="https://www.instagram.com/investinom" target="_blank" rel="noopener noreferrer" className="text-gray-800 hover:text-[#E4405F] transition-colors duration-300">
             <i className="fab fa-instagram text-2xl"></i>
           </a>
-          <a href="#" className="text-gray-800 hover:text-[#0A66C2] transition-colors duration-300">
+          <a href="https://om.linkedin.com/company/investinom" target="_blank" rel="noopener noreferrer" className="text-gray-800 hover:text-[#0A66C2] transition-colors duration-300">
             <i className="fab fa-linkedin text-2xl"></i>
           </a>
-          <a href="#" className="text-gray-800 hover:text-[#FF0000] transition-colors duration-300">
+          <a href="https://www.youtube.com/@invest-oman" target="_blank" rel="noopener noreferrer" className="text-gray-800 hover:text-[#FF0000] transition-colors duration-300">
             <i className="fab fa-youtube text-2xl"></i>
           </a>
         </div>

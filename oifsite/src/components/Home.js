@@ -8,14 +8,23 @@ const Home = () => {
     minutes: '00',
     seconds: '00'
   });
+  const [countdownFinished, setCountdownFinished] = useState(false);
+  const [eventPassed, setEventPassed] = useState(false);
 
   useEffect(() => {
     const calculateTimeLeft = () => {
-      const targetDate = new Date('2025-03-27T00:00:00').getTime();
+      const targetDate = new Date('2025-03-15T00:00:00').getTime();
       const now = new Date().getTime();
       const difference = targetDate - now;
+      
+      // Check if it's been 4 days since the event
+      const fourDaysAfterEvent = targetDate + (4 * 24 * 60 * 60 * 1000);
+      if (now >= fourDaysAfterEvent) {
+        setEventPassed(true);
+      }
 
       if (difference <= 0) {
+        setCountdownFinished(true);
         return {
           days: '00',
           hours: '00',
@@ -95,7 +104,7 @@ const Home = () => {
               {/* Main Heading */}
               <motion.div variants={fadeIn} className="text-center">
                 <span className="inline-block py-1 px-3 rounded-full bg-white/10 backdrop-blur-md text-white/90 text-sm font-medium mb-6">
-                  March 27, 2025
+                  March 21, 2025
                 </span>
                 <h1 className="text-5xl font-bold text-white md:text-7xl xl:text-8xl tracking-tight leading-none">
                   <span className="block bg-gradient-to-r from-white via-[#D6F0EB] to-[#C9B8E0] bg-clip-text text-transparent pb-2">
@@ -113,25 +122,42 @@ const Home = () => {
                 </motion.p>
               </motion.div>
 
-              {/* Countdown Timer */}
-              <motion.div variants={fadeIn} className="mt-16">
-                <div className="grid grid-cols-4 gap-3 sm:gap-6 max-w-3xl mx-auto">
-                  {[
-                    { value: timeLeft.days, label: 'Days' },
-                    { value: timeLeft.hours, label: 'Hours' },
-                    { value: timeLeft.minutes, label: 'Minutes' },
-                    { value: timeLeft.seconds, label: 'Seconds' }
-                  ].map((item, index) => (
-                    <div key={index} className="relative group">
-                      <div className="absolute inset-0 bg-gradient-to-br from-[#4C078C]/30 to-[#9DD4CA]/30 rounded-2xl blur-xl group-hover:blur-lg transition-all duration-300"></div>
-                      <div className="relative bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl p-4 sm:p-6 overflow-hidden group-hover:bg-white/15 transition-all duration-300">
-                        <div className="text-3xl sm:text-5xl font-bold text-[#E8F5F2] countdown-number">{item.value}</div>
-                        <div className="text-[#D6F0EB]/90 text-xs sm:text-base font-medium mt-1">{item.label}</div>
+              {/* Countdown Timer - Only show if countdown is not finished and event hasn't passed 4 days */}
+              {!countdownFinished && !eventPassed && (
+                <motion.div variants={fadeIn} className="mt-16">
+                  <div className="grid grid-cols-4 gap-3 sm:gap-6 max-w-3xl mx-auto">
+                    {[
+                      { value: timeLeft.days, label: 'Days' },
+                      { value: timeLeft.hours, label: 'Hours' },
+                      { value: timeLeft.minutes, label: 'Minutes' },
+                      { value: timeLeft.seconds, label: 'Seconds' }
+                    ].map((item, index) => (
+                      <div key={index} className="relative group">
+                        <div className="absolute inset-0 bg-gradient-to-br from-[#4C078C]/30 to-[#9DD4CA]/30 rounded-2xl blur-xl group-hover:blur-lg transition-all duration-300"></div>
+                        <div className="relative bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl p-4 sm:p-6 overflow-hidden group-hover:bg-white/15 transition-all duration-300">
+                          <div className="text-3xl sm:text-5xl font-bold text-[#E8F5F2] countdown-number">{item.value}</div>
+                          <div className="text-[#D6F0EB]/90 text-xs sm:text-base font-medium mt-1">{item.label}</div>
+                        </div>
                       </div>
-                    </div>
-                  ))}
-                </div>
-              </motion.div>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+
+              {/* Event Started Message - Show when countdown is finished but only until 4 days after event */}
+              {countdownFinished && !eventPassed && (
+                <motion.div 
+                  variants={fadeIn} 
+                  className="mt-16 text-center"
+                >
+                  <div className="bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl p-6 max-w-3xl mx-auto">
+                    <h2 className="text-3xl font-bold text-[#E8F5F2]">The Event Has Started!</h2>
+                    <p className="text-[#D6F0EB]/90 text-xl mt-3">
+                      Join us at the Oman Investment Forum 2025 for exciting opportunities and networking.
+                    </p>
+                  </div>
+                </motion.div>
+              )}
 
               {/* Call to Action */}
               <motion.div variants={fadeIn} className="mt-12 text-center">

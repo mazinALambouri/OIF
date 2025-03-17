@@ -102,7 +102,7 @@ const LiveStream = () => {
             <h2 className="text-4xl md:text-5xl font-bold mb-6">
               <span className="relative">
                 <span className="relative z-10 bg-gradient-to-r from-primary via-primary-light to-primary bg-clip-text text-transparent">
-                  Livestream
+                  LIVESTREAM
                 </span>
               </span>
             </h2>
@@ -128,14 +128,7 @@ const LiveStream = () => {
             </div>
           </motion.div>
 
-          <motion.div 
-            variants={itemVariants}
-            className="mt-8 text-center"
-          >
-            <p className="text-lg text-gray-700 max-w-3xl mx-auto">
-              Join us live as we explore the latest insights and opportunities in Oman's investment landscape.
-            </p>
-          </motion.div>
+          
         </motion.div>
       </div>
     </section>

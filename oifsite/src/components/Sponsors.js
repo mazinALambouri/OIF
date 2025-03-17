@@ -121,11 +121,11 @@ const Sponsors = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <span className="inline-block py-2 px-6 rounded-full bg-secondary/30 text-primary font-semibold text-lg tracking-wider mb-4">Our Partners</span>
+          <span className="inline-block py-2 px-6 rounded-full bg-secondary/30 text-primary font-semibold text-lg tracking-wider mb-4">OUR</span>
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
             <span className="relative">
               <span className="relative z-10 bg-gradient-to-r from-primary via-primary-light to-primary bg-clip-text text-transparent">
-                Partners
+                PARTNERS
               </span>
               {/* Shadow text to help with rendering */}
             </span>

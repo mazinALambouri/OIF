@@ -9,7 +9,7 @@ const Card = ({ title, description }) => {
       whileHover={{ y: -5, transition: { duration: 0.2 } }}
     >
       <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-secondary/20 rounded-2xl transform rotate-1 group-hover:rotate-2 transition-all duration-300"></div>
-      <div className="relative bg-white/80 backdrop-blur-sm border border-white/50 rounded-2xl p-6 shadow-xl overflow-hidden group-hover:shadow-2xl transition-all duration-300">
+      <div className="relative bg-white backdrop-blur-sm border border-white/50 rounded-2xl p-6 shadow-xl overflow-hidden group-hover:shadow-2xl transition-all duration-300">
         <h3 className="text-xl font-bold text-gray-700 mb-4 group-hover:text-primary transition-colors duration-300">
           {title}
         </h3>
@@ -121,11 +121,11 @@ const WhyOman = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <span className="inline-block py-2 px-6 rounded-full bg-secondary/30 text-primary font-semibold text-lg tracking-wider mb-4">Investment Destination</span>
+          <span className="inline-block py-2 px-6 rounded-full bg-secondary/30 text-primary font-semibold text-lg tracking-wider mb-4">INVESTMENT DESTINATION</span>
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
             <span className="relative">
               <span className="relative z-10 bg-gradient-to-r from-primary via-primary-light to-primary bg-clip-text text-transparent">
-                Why Oman?
+              WHY OMAN?
               </span>
             </span>
           </h2>
