@@ -26,34 +26,20 @@ const Navigation = () => {
     setPrevSection(activeSection);
     setActiveSection(sectionId);
     
-    // Get the current section and target section elements
     const element = document.getElementById(sectionId);
     if (element) {
-      // Custom smooth scroll with animation
-      const startPosition = window.pageYOffset;
-      const targetPosition = element.getBoundingClientRect().top + window.pageYOffset;
-      const distance = targetPosition - startPosition;
-      const duration = 1000;
-      let start = null;
+      // Get navbar height to offset scroll position
+      const navbar = document.querySelector('nav');
+      const navbarHeight = navbar ? navbar.offsetHeight : 0;
       
-      function step(timestamp) {
-        if (!start) start = timestamp;
-        const progress = timestamp - start;
-        const percentage = Math.min(progress / duration, 1);
-        
-        // Easing function for smooth acceleration/deceleration
-        const easeInOutCubic = t => t < 0.5 
-          ? 4 * t * t * t 
-          : 1 - Math.pow(-2 * t + 2, 3) / 2;
-        
-        window.scrollTo(0, startPosition + distance * easeInOutCubic(percentage));
-        
-        if (progress < duration) {
-          window.requestAnimationFrame(step);
-        }
-      }
+      // Scroll to element with offset for navbar
+      const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
+      const offsetPosition = elementPosition - navbarHeight;
       
-      window.requestAnimationFrame(step);
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
     }
     
     // Close mobile menu if it's open
@@ -188,7 +174,12 @@ const Navigation = () => {
                       <motion.div 
                         className="h-0.5 bg-primary rounded-full mt-1"
                         layoutId="activeSection"
-                        transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                        transition={{ 
+                          type: "spring", 
+                          stiffness: 300, 
+                          damping: 30,
+                          duration: 0.3
+                        }}
                       />
                     )}
                   </motion.a>
@@ -219,7 +210,12 @@ const Navigation = () => {
                     <motion.div 
                       className="h-0.5 bg-primary rounded-full mt-1"
                       layoutId="activeSection"
-                      transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                      transition={{ 
+                        type: "spring", 
+                        stiffness: 300, 
+                        damping: 30,
+                        duration: 0.3
+                      }}
                     />
                   )}
                 </motion.a>
@@ -237,7 +233,12 @@ const Navigation = () => {
                     <motion.div 
                       className="h-0.5 bg-primary rounded-full mt-1"
                       layoutId="activeSection"
-                      transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                      transition={{ 
+                        type: "spring", 
+                        stiffness: 300, 
+                        damping: 30,
+                        duration: 0.3
+                      }}
                     />
                   )}
                 </motion.a>
@@ -255,7 +256,12 @@ const Navigation = () => {
                     <motion.div 
                       className="h-0.5 bg-primary rounded-full mt-1"
                       layoutId="activeSection"
-                      transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                      transition={{ 
+                        type: "spring", 
+                        stiffness: 300, 
+                        damping: 30,
+                        duration: 0.3
+                      }}
                     />
                   )}
                 </motion.a>
@@ -273,7 +279,12 @@ const Navigation = () => {
                     <motion.div 
                       className="h-0.5 bg-primary rounded-full mt-1"
                       layoutId="activeSection"
-                      transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                      transition={{ 
+                        type: "spring", 
+                        stiffness: 300, 
+                        damping: 30,
+                        duration: 0.3
+                      }}
                     />
                   )}
                 </motion.a>
