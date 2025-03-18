@@ -48,11 +48,11 @@ const About = () => {
     // If same month and year
     if (startDate.getMonth() === endDate.getMonth() && 
         startDate.getFullYear() === endDate.getFullYear()) {
-      return `${startDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric' })}-${endDate.getDate()}, ${endDate.getFullYear()}`;
+      return `${startDate.getDate()}-${endDate.getDate()} ${startDate.toLocaleDateString('en-US', { month: 'long' })}, ${endDate.getFullYear()}`;
     }
     
     // Different months or years
-    return `${startDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric' })} - ${endDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric' })}, ${endDate.getFullYear()}`;
+    return `${startDate.getDate()} ${startDate.toLocaleDateString('en-US', { month: 'long' })} - ${endDate.getDate()} ${endDate.toLocaleDateString('en-US', { month: 'long' })}, ${endDate.getFullYear()}`;
   };
 
   // Animation variants
@@ -232,20 +232,7 @@ const About = () => {
                     className="w-full h-[400px] md:h-[500px] object-cover transform group-hover:scale-105 transition-transform duration-700"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                  <motion.div 
-                    whileHover={{ y: -5 }}
-                    className="absolute bottom-0 left-0 right-0 p-8"
-                  >
-                    <div className="inline-block px-4 py-2 bg-white/20 backdrop-blur-md rounded-lg text-white mb-3">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 inline-block mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                      </svg>
-                      {formatDateRange()}
-                    </div>
-                    <h3 className="text-2xl font-bold text-white">
-                      Shaping the Future of Investment
-                    </h3>
-                  </motion.div>
+                 
                 </motion.div>
                 
                 

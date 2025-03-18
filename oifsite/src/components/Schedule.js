@@ -172,7 +172,7 @@ const Schedule = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <span className="inline-block py-2 px-6 rounded-full bg-secondary/20 text-primary font-semibold text-sm tracking-wider mb-4 uppercase">PROGRAM SCHEDULE</span>
+          <span className="inline-block py-2 px-6 rounded-full bg-secondary/20 text-primary font-semibold text-sm tracking-wider mb-4 uppercase">FORUM SCHEDULE</span>
 
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
             <span className="relative">

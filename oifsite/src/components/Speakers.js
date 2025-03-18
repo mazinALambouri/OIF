@@ -276,16 +276,16 @@ const Speakers = () => {
               exit="exit"
             >
               <motion.div 
-                className="bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto"
                 variants={modalVariants}
                 initial="hidden"
                 animate="visible"
                 exit="exit"
                 onClick={(e) => e.stopPropagation()}
+                className="bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto relative"
               >
                 {/* Close button */}
                 <button 
-                  className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 z-10"
+                  className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 z-50"
                   onClick={closeSpeakerDetails}
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -348,23 +348,10 @@ const Speakers = () => {
                       )}
                       
                       {/* Action buttons */}
-                      <div className="mt-6 flex flex-wrap gap-3">
-                        <button 
-                          className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors duration-200"
-                          onClick={() => window.open(`#speaker-${selectedSpeaker.id}`, '_blank')}
-                        >
-                          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                          </svg>
-                          View Profile
-                        </button>
+                      <div className="mt-6 flex flex-wrap gap-3 justify-center w-full">
                         
-                        <button 
-                          className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors duration-200"
-                          onClick={closeSpeakerDetails}
-                        >
-                          Close
-                        </button>
+                        
+                      
                       </div>
                     </div>
                   </div>
