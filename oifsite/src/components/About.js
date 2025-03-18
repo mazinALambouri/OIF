@@ -232,10 +232,28 @@ const About = () => {
                     className="w-full h-[400px] md:h-[500px] object-cover transform group-hover:scale-105 transition-transform duration-700"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                 
+                  
+                  {/* Stylish centered date display with icon */}
+                  <motion.div 
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.2, duration: 0.5 }}
+                    className="absolute inset-0 flex items-center justify-center"
+                  >
+                    <div className="bg-black/30 backdrop-blur-md px-6 py-3 rounded-xl border border-white/20 shadow-xl transform hover:scale-105 transition-all duration-300">
+                      <div className="flex items-center gap-3">
+                        {/* Calendar icon */}
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white/90" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        <div className="flex flex-col items-center">
+                          <span className="text-white font-light tracking-widest text-sm uppercase">27-29 April</span>
+                          <span className="text-white font-bold text-2xl tracking-wide">2025</span>
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
                 </motion.div>
-                
-                
               </motion.div>
             </div>
           </motion.div>
