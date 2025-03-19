@@ -99,8 +99,8 @@ const WhyOman = () => {
         
         // Fetch sectors from Supabase
         const { data, error } = await supabase
-          .from('sector')
-          .select('name, description, targets, more_details')
+          .from('sectors')
+          .select('name, description')
           .order('name');
           
         if (error) {
@@ -333,43 +333,6 @@ const WhyOman = () => {
                         <p>{selectedSector.description}</p>
                       </div>
                     </div>
-                    
-                    {/* Targets */}
-                    {selectedSector.targets && (
-                      <div className="mt-4 bg-blue-50 p-3 rounded-lg">
-                        <h4 className="text-base font-semibold text-gray-800 mb-2 flex items-center">
-                          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                          </svg>
-                          Key Targets
-                        </h4>
-                        <div className="prose prose-sm text-gray-600">
-                          {selectedSector.targets.split('\n').map((target, i) => (
-                            <p key={i} className="mb-1 flex items-start">
-                              <span className="text-blue-500 mr-2">•</span>
-                              {target}
-                            </p>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                    
-                    {/* More Details */}
-                    {selectedSector.more_details && (
-                      <div className="mt-4 bg-purple-50 p-3 rounded-lg">
-                        <h4 className="text-base font-semibold text-gray-800 mb-2 flex items-center">
-                          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                          </svg>
-                          Additional Information
-                        </h4>
-                        <div className="prose prose-sm text-gray-600">
-                          {selectedSector.more_details.split('\n').map((paragraph, i) => (
-                            <p key={i} className="mb-2">{paragraph}</p>
-                          ))}
-                        </div>
-                      </div>
-                    )}
                     
                     {/* Footer action button */}
                     <div className="mt-6 text-center">

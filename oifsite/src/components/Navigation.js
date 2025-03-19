@@ -11,6 +11,9 @@ const Navigation = () => {
   const [scrollDirection, setScrollDirection] = useState('down');
   const [lastScrollY, setLastScrollY] = useState(0);
   const location = useLocation();
+  
+  // External contact URL
+  const contactUrl = "https://investoman.om/contactus";
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -289,6 +292,18 @@ const Navigation = () => {
                   )}
                 </motion.a>
               </motion.li>
+              <motion.li variants={linkVariants}>
+                <motion.a 
+                  href={contactUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-4 py-2 bg-primary text-white rounded-full transition-colors duration-300 hover:bg-primary/80 no-underline hover:no-underline"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  CONTACT US
+                </motion.a>
+              </motion.li>
             </motion.ul>
           </div>
           
@@ -406,6 +421,18 @@ const Navigation = () => {
                   whileTap={{ scale: 0.95 }}
                 >
                   SPONSORS
+                </motion.a>
+              </motion.li>
+              <motion.li variants={mobileLinkVariants}>
+                <motion.a 
+                  href={contactUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block px-4 py-2 bg-primary text-white rounded-full transition-colors duration-300 hover:bg-primary/80 w-fit no-underline hover:no-underline"
+                  whileHover={{ x: 5 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  CONTACT US
                 </motion.a>
               </motion.li>
             </motion.ul>
