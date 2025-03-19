@@ -297,7 +297,7 @@ const Navigation = () => {
                   href={contactUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-4 py-2 bg-primary text-white rounded-full transition-colors duration-300 hover:bg-primary/80 no-underline hover:no-underline"
+                  className="px-4 py-2 bg-gradient-to-r from-[#8FD2C7] to-[#492E8B] text-white rounded-full transition-all duration-300 hover:bg-gradient-to-l hover:from-[#8FD2C7] hover:to-[#492E8B] no-underline hover:no-underline"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
@@ -428,7 +428,7 @@ const Navigation = () => {
                   href={contactUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block px-4 py-2 bg-primary text-white rounded-full transition-colors duration-300 hover:bg-primary/80 w-fit no-underline hover:no-underline"
+                  className="block px-4 py-2 bg-gradient-to-r from-[#8FD2C7] to-[#492E8B] text-white rounded-full transition-all duration-300 hover:bg-gradient-to-l hover:from-[#8FD2C7] hover:to-[#492E8B] w-fit no-underline hover:no-underline"
                   whileHover={{ x: 5 }}
                   whileTap={{ scale: 0.95 }}
                 >

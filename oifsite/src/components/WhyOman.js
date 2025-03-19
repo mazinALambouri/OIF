@@ -302,20 +302,10 @@ const WhyOman = () => {
                     <div className="h-16 bg-gradient-to-r from-primary/80 to-secondary/80 rounded-t-xl relative overflow-hidden">
                       <div className="absolute inset-0 bg-pattern opacity-10"></div>
                     </div>
-                    <div className="h-8"></div> {/* Space for the icon that overlaps */}
-                  </div>
-                  
-                  {/* Icon overlapping header and content */}
-                  <div className="absolute top-10 left-1/2 transform -translate-x-1/2 w-16 h-16 rounded-full bg-white shadow-lg flex items-center justify-center border-4 border-white z-10">
-                    <div className="text-2xl text-primary">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                      </svg>
-                    </div>
                   </div>
                   
                   {/* Scrollable content area */}
-                  <div className="flex-grow overflow-y-auto p-5 pt-8">
+                  <div className="flex-grow overflow-y-auto p-5">
                     {/* Sector Title */}
                     <h3 className="text-xl md:text-2xl font-bold text-gray-900 text-center mb-3">
                       {selectedSector.name}
