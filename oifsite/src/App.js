@@ -10,9 +10,6 @@ import WhyOman from './components/WhyOman';
 import Sponsors from './components/Sponsors';
 import Footer from './components/Footer';
 import LiveStream from './components/LiveStream';
-import Attendance from './pages/Attendance';
-import AttendanceRecords from './pages/AttendanceRecords';
-import QRScanner from './pages/QRScanner';
 import './App.css';
 
 // Page transition variants
@@ -88,36 +85,6 @@ function App() {
                   <Sponsors />
                 </SectionContainer>
               </>
-            } />
-            <Route path="/attendance" element={
-              <motion.div
-                initial="hidden"
-                animate="visible"
-                exit="exit"
-                variants={pageTransition}
-              >
-                <Attendance />
-              </motion.div>
-            } />
-            <Route path="/attendance/records" element={
-              <motion.div
-                initial="hidden"
-                animate="visible"
-                exit="exit"
-                variants={pageTransition}
-              >
-                <AttendanceRecords />
-              </motion.div>
-            } />
-            <Route path="/attendance/scan" element={
-              <motion.div
-                initial="hidden"
-                animate="visible"
-                exit="exit"
-                variants={pageTransition}
-              >
-                <QRScanner />
-              </motion.div>
             } />
           </Routes>
         </motion.main>
