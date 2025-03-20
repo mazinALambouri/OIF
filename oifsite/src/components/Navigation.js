@@ -13,7 +13,7 @@ const Navigation = () => {
   const location = useLocation();
   
   // External contact URL
-  const contactUrl = "https://investoman.om/contactus";
+  const contactUrl = "https://investoman.om/investor-info-form";
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
