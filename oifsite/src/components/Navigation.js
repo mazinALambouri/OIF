@@ -277,7 +277,7 @@ const Navigation = () => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  SPONSORS
+                  PARTNERS
                   {activeSection === 'sponsors' && (
                     <motion.div 
                       className="h-0.5 bg-primary rounded-full mt-1"
@@ -297,9 +297,20 @@ const Navigation = () => {
                   href={contactUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-4 py-2 bg-gradient-to-r from-[#8FD2C7] to-[#492E8B] text-white rounded-full transition-all duration-300 hover:bg-gradient-to-l hover:from-[#8FD2C7] hover:to-[#492E8B] no-underline hover:no-underline"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                  className="px-4 py-2 bg-gradient-to-r from-[#8FD2C7] to-[#492E8B] text-white rounded-full transition-all duration-300 "
+                  whileHover={{ 
+                    scale: 1.05,
+                    boxShadow: "0px 10px 20px rgba(73, 46, 139, 0.2)",
+                    y: -3,
+                    color: "#ffffff",
+                    textShadow: "0px 0px 8px rgba(255,255,255,0.3)"
+                  }}
+                  transition={{
+                    type: "spring",
+                    stiffness: 400,
+                    damping: 15
+                  }}
+                  whileTap={{ scale: 0.92, y: 0 }}
                 >
                   CONTACT US
                 </motion.a>
@@ -420,20 +431,26 @@ const Navigation = () => {
                   whileHover={{ x: 5 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  SPONSORS
+                  PARTNERS
                 </motion.a>
               </motion.li>
               <motion.li variants={mobileLinkVariants}>
-                <motion.a 
+                <a 
                   href={contactUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block px-4 py-2 bg-gradient-to-r from-[#8FD2C7] to-[#492E8B] text-white rounded-full transition-all duration-300 hover:bg-gradient-to-l hover:from-[#8FD2C7] hover:to-[#492E8B] w-fit no-underline hover:no-underline"
-                  whileHover={{ x: 5 }}
-                  whileTap={{ scale: 0.95 }}
+                  className="block px-4 py-2 bg-gradient-to-r from-[#8FD2C7] to-[#492E8B] text-white rounded-full 
+                  transition-all duration-500 ease-out
+                  hover:bg-gradient-to-l hover:from-[#8FD2C7] hover:to-[#492E8B] 
+                  w-fit no-underline hover:no-underline 
+                  shadow-[0_2px_8px_rgba(143,210,199,0.15)]
+                  hover:shadow-[0_6px_20px_rgba(73,46,139,0.25)] 
+                  hover:-translate-y-1 
+                  hover:scale-105
+                  active:scale-95 active:translate-y-0 active:shadow-[0_2px_8px_rgba(143,210,199,0.15)]"
                 >
                   CONTACT US
-                </motion.a>
+                </a>
               </motion.li>
             </motion.ul>
           </motion.div>
