@@ -434,7 +434,7 @@ const Navigation = () => {
                   PARTNERS
                 </motion.a>
               </motion.li>
-              <motion.li variants={mobileLinkVariants}>
+              <motion.li variants={mobileLinkVariants} className="flex justify-center">
                 <a 
                   href={contactUrl}
                   target="_blank"

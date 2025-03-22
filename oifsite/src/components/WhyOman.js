@@ -147,11 +147,12 @@ const WhyOman = () => {
   ];
 
   return (
-    <section id="why-oman" className="py-24 bg-gradient-to-b from-white via-secondary/20 to-primary/10 relative overflow-hidden">
-      {/* Decorative background elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-primary/10 rounded-full mix-blend-multiply filter blur-3xl"></div>
-        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-secondary/30 rounded-full mix-blend-multiply filter blur-3xl"></div>
+    <section id="why-oman" className="py-24 bg-gradient-to-br from-slate-50 via-secondary/20 to-primary/10 relative overflow-hidden">
+      {/* Animated background elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute top-0 -left-40 w-80 h-80 bg-primary/10 rounded-full mix-blend-multiply filter blur-3xl animate-blob"></div>
+        <div className="absolute top-0 -right-40 w-80 h-80 bg-secondary/20 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000"></div>
+        <div className="absolute -bottom-40 left-20 w-80 h-80 bg-primary/10 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-4000"></div>
       </div>
       
       <div className="max-w-6xl mx-auto px-6 relative z-10">
@@ -324,15 +325,8 @@ const WhyOman = () => {
                       </div>
                     </div>
                     
-                    {/* Footer action button */}
-                    <div className="mt-6 text-center">
-                      <button 
-                        onClick={closeSectorDetails}
-                        className="px-5 py-2 bg-gradient-to-r from-primary to-secondary text-white rounded-full shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-200 font-medium text-sm"
-                      >
-                        Close
-                      </button>
-                    </div>
+                
+                   
                   </div>
                 </motion.div>
               </motion.div>
