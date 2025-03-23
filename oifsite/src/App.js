@@ -72,14 +72,14 @@ function App() {
                 <SectionContainer id="about">
                   <About />
                 </SectionContainer>
+                <SectionContainer id="why-oman">
+                  <WhyOman />
+                </SectionContainer>
                 <SectionContainer id="schedule">
                   <Schedule />
                 </SectionContainer>
                 <SectionContainer id="speakers">
                   <Speakers />
-                </SectionContainer>
-                <SectionContainer id="whyoman">
-                  <WhyOman />
                 </SectionContainer>
                 <SectionContainer id="sponsors">
                   <Sponsors />

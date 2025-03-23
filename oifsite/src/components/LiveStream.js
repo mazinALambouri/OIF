@@ -45,8 +45,8 @@ const LiveStream = () => {
     return null; // Don't show anything while loading
   }
 
-  // If no stream data or stream is not live, don't render anything
-  if (!streamData || !streamData.is_live) {
+  // If no stream data or no valid URL, don't render anything
+  if (!streamData || !streamData.youtube_url) {
     return null;
   }
 
@@ -102,20 +102,6 @@ const LiveStream = () => {
       opacity: 1, 
       scale: 1,
       transition: { duration: 1.2 }
-    }
-  };
-  
-  // Special animation for the "LIVE NOW" badge
-  const badgeAnimation = {
-    hidden: { opacity: 0, scale: 0.5 },
-    visible: { 
-      opacity: 1, 
-      scale: [1, 1.1, 1],
-      transition: { 
-        duration: 0.7, 
-        times: [0, 0.7, 1],
-        delay: 0.5 
-      }
     }
   };
   
@@ -198,28 +184,6 @@ const LiveStream = () => {
               variants={itemVariants}
               className="text-center mb-12"
             >
-              <motion.span 
-                className="inline-block py-2 px-6 bg-secondary/30 text-primary rounded-full text-lg font-semibold tracking-wider mb-4"
-                variants={badgeAnimation}
-              >LIVE NOW</motion.span>
-              <h2 className="text-4xl md:text-5xl font-bold mb-6">
-                <motion.span 
-                  className="relative"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.7, delay: 0.7 }}
-                >
-                  <span className="relative z-10 bg-gradient-to-r from-primary via-primary-light to-primary bg-clip-text text-transparent">
-                    LIVESTREAM
-                  </span>
-                </motion.span>
-              </h2>
-              <motion.div 
-                className="w-24 h-1.5 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full"
-                initial={{ width: 0 }}
-                animate={{ width: "6rem" }}
-                transition={{ duration: 0.8, delay: 1 }}
-              ></motion.div>
             </motion.div>
 
             <motion.div 

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import logo from '../assets/img/Oman.png';
+import { supabase } from '../supabaseClient';
 
 const Navigation = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -14,6 +15,34 @@ const Navigation = () => {
   
   // External contact URL
   const contactUrl = "https://investoman.om/investor-info-form";
+
+  // Function to handle guide download
+  const handleDownloadGuide = async () => {
+    try {
+      // Fetch the latest guide from Supabase
+      const { data, error } = await supabase
+        .from('downloadguide')
+        .select('file_url')
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .single();
+      
+      if (error) {
+        console.error('Error fetching guide:', error);
+        alert('Failed to fetch the guide. Please try again later.');
+        return;
+      }
+      
+      if (data && data.file_url) {
+        window.location.href = data.file_url;
+      } else {
+        alert('No guide available for download at this time.');
+      }
+    } catch (error) {
+      console.error('Error downloading guide:', error);
+      alert('Failed to download the guide. Please try again later.');
+    }
+  };
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -140,7 +169,7 @@ const Navigation = () => {
       variants={navVariants}
     >
       <div className="px-6 mx-auto max-w-6xl">
-        <div className="flex items-center justify-between py-2 sm:py-4">
+        <div className="flex items-center justify-between py-2 sm:py-3">
           {/* Left side: Logo */}
           <motion.div 
             className="flex-shrink-0 pl-2"
@@ -162,7 +191,7 @@ const Navigation = () => {
           {/* Center: Navigation links */}
           <div className="flex-grow flex justify-center">
             {/* Desktop nav links */}
-            <motion.ul className="hidden lg:flex space-x-8" variants={navVariants}>
+            <motion.ul className="hidden lg:flex space-x-8 items-center" variants={navVariants}>
               <motion.li variants={linkVariants}>
                 {location.pathname === "/" ? (
                   <motion.a 
@@ -292,29 +321,55 @@ const Navigation = () => {
                   )}
                 </motion.a>
               </motion.li>
-              <motion.li variants={linkVariants}>
-                <motion.a 
-                  href={contactUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-4 py-2 bg-gradient-to-r from-[#8FD2C7] to-[#492E8B] text-white rounded-full transition-all duration-300 "
-                  whileHover={{ 
-                    scale: 1.05,
-                    boxShadow: "0px 10px 20px rgba(73, 46, 139, 0.2)",
-                    y: -3,
-                    color: "#ffffff",
-                    textShadow: "0px 0px 8px rgba(255,255,255,0.3)"
-                  }}
-                  transition={{
-                    type: "spring",
-                    stiffness: 400,
-                    damping: 15
-                  }}
-                  whileTap={{ scale: 0.92, y: 0 }}
-                >
-                  CONTACT US
-                </motion.a>
-              </motion.li>
+              <div className="flex items-center space-x-3 -mt-1">
+                <motion.li variants={linkVariants} className="flex items-center">
+                  <motion.a 
+                    href={contactUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-4 py-1.5 bg-gradient-to-r from-[#8FD2C7] to-[#492E8B] text-white rounded-full transition-all duration-300 "
+                    whileHover={{ 
+                      scale: 1.05,
+                      boxShadow: "0px 10px 20px rgba(73, 46, 139, 0.2)",
+                      y: -3,
+                      color: "#ffffff",
+                      textShadow: "0px 0px 8px rgba(255,255,255,0.3)"
+                    }}
+                    transition={{
+                      type: "spring",
+                      stiffness: 400,
+                      damping: 15
+                    }}
+                    whileTap={{ scale: 0.92, y: 0 }}
+                  >
+                    CONTACT US
+                  </motion.a>
+                </motion.li>
+                <motion.li variants={linkVariants} className="flex items-center">
+                  <motion.button 
+                    onClick={handleDownloadGuide}
+                    aria-label="Download Guide"
+                    className="px-4 py-1.5 bg-[#492E8B] text-white rounded-full transition-all duration-300 flex items-center justify-center"
+                    whileHover={{ 
+                      scale: 1.05,
+                      boxShadow: "0px 10px 20px rgba(73, 46, 139, 0.2)",
+                      y: -3,
+                      color: "#ffffff",
+                      textShadow: "0px 0px 8px rgba(255,255,255,0.3)"
+                    }}
+                    transition={{
+                      type: "spring",
+                      stiffness: 400,
+                      damping: 15
+                    }}
+                    whileTap={{ scale: 0.92, y: 0 }}
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                    </svg>
+                  </motion.button>
+                </motion.li>
+              </div>
             </motion.ul>
           </div>
           
@@ -364,22 +419,23 @@ const Navigation = () => {
             animate="visible"
             exit="exit"
           >
-            <motion.ul className="flex flex-col space-y-4 p-4">
+            <motion.ul className="flex flex-col space-y-4 p-4 items-center">
               <motion.li variants={mobileLinkVariants}>
                 {location.pathname === "/" ? (
                   <motion.a 
                     href="#home" 
                     onClick={(e) => scrollToSection('home', e)} 
-                    className={`nav-link block transition-colors duration-300 hover:text-primary ${activeSection === 'home' ? 'text-primary font-bold' : ''}`}
-                    whileHover={{ x: 5 }}
+                    className={`nav-link block transition-colors duration-300 hover:text-primary ${activeSection === 'home' ? 'text-primary font-bold' : ''} text-center`}
+                    whileHover={{ y: -2 }}
                     whileTap={{ scale: 0.95 }}
                   >
                     HOME
                   </motion.a>
                 ) : (
                   <motion.div
-                    whileHover={{ x: 5 }}
+                    whileHover={{ y: -2 }}
                     whileTap={{ scale: 0.95 }}
+                    className="text-center"
                   >
                     <Link 
                       to="/"
@@ -394,8 +450,8 @@ const Navigation = () => {
                 <motion.a 
                   href="#about" 
                   onClick={(e) => scrollToSection('about', e)} 
-                  className={`nav-link block transition-colors duration-300 hover:text-primary ${activeSection === 'about' ? 'text-primary font-bold' : ''}`}
-                  whileHover={{ x: 5 }}
+                  className={`nav-link block transition-colors duration-300 hover:text-primary ${activeSection === 'about' ? 'text-primary font-bold' : ''} text-center`}
+                  whileHover={{ y: -2 }}
                   whileTap={{ scale: 0.95 }}
                 >
                   ABOUT
@@ -405,8 +461,8 @@ const Navigation = () => {
                 <motion.a 
                   href="#schedule" 
                   onClick={(e) => scrollToSection('schedule', e)} 
-                  className={`nav-link block transition-colors duration-300 hover:text-primary ${activeSection === 'schedule' ? 'text-primary font-bold' : ''}`}
-                  whileHover={{ x: 5 }}
+                  className={`nav-link block transition-colors duration-300 hover:text-primary ${activeSection === 'schedule' ? 'text-primary font-bold' : ''} text-center`}
+                  whileHover={{ y: -2 }}
                   whileTap={{ scale: 0.95 }}
                 >
                   SCHEDULE
@@ -416,8 +472,8 @@ const Navigation = () => {
                 <motion.a 
                   href="#speakers" 
                   onClick={(e) => scrollToSection('speakers', e)} 
-                  className={`nav-link block transition-colors duration-300 hover:text-primary ${activeSection === 'speakers' ? 'text-primary font-bold' : ''}`}
-                  whileHover={{ x: 5 }}
+                  className={`nav-link block transition-colors duration-300 hover:text-primary ${activeSection === 'speakers' ? 'text-primary font-bold' : ''} text-center`}
+                  whileHover={{ y: -2 }}
                   whileTap={{ scale: 0.95 }}
                 >
                   SPEAKERS
@@ -427,8 +483,8 @@ const Navigation = () => {
                 <motion.a 
                   href="#sponsors" 
                   onClick={(e) => scrollToSection('sponsors', e)} 
-                  className={`nav-link block transition-colors duration-300 hover:text-primary ${activeSection === 'sponsors' ? 'text-primary font-bold' : ''}`}
-                  whileHover={{ x: 5 }}
+                  className={`nav-link block transition-colors duration-300 hover:text-primary ${activeSection === 'sponsors' ? 'text-primary font-bold' : ''} text-center`}
+                  whileHover={{ y: -2 }}
                   whileTap={{ scale: 0.95 }}
                 >
                   PARTNERS
@@ -439,7 +495,7 @@ const Navigation = () => {
                   href={contactUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block px-4 py-2 bg-gradient-to-r from-[#8FD2C7] to-[#492E8B] text-white rounded-full 
+                  className="block px-4 py-1.5 bg-gradient-to-r from-[#8FD2C7] to-[#492E8B] text-white rounded-full 
                   transition-all duration-500 ease-out
                   hover:bg-gradient-to-l hover:from-[#8FD2C7] hover:to-[#492E8B] 
                   w-fit no-underline hover:no-underline 
@@ -447,10 +503,32 @@ const Navigation = () => {
                   hover:shadow-[0_6px_20px_rgba(73,46,139,0.25)] 
                   hover:-translate-y-1 
                   hover:scale-105
-                  active:scale-95 active:translate-y-0 active:shadow-[0_2px_8px_rgba(143,210,199,0.15)]"
+                  active:scale-95 active:translate-y-0 active:shadow-[0_2px_8px_rgba(143,210,199,0.15)]
+                  mx-auto"
                 >
                   CONTACT US
                 </a>
+              </motion.li>
+              <motion.li variants={mobileLinkVariants}>
+                <button 
+                  onClick={handleDownloadGuide}
+                  aria-label="Download Guide"
+                  className="mt-2 px-4 py-1.5 bg-[#492E8B] text-white rounded-full 
+                  transition-all duration-500 ease-out
+                  hover:bg-[#3d2575]
+                  w-fit no-underline hover:no-underline 
+                  shadow-[0_2px_8px_rgba(73,46,139,0.15)]
+                  hover:shadow-[0_6px_20px_rgba(73,46,139,0.25)] 
+                  hover:-translate-y-1 
+                  hover:scale-105
+                  active:scale-95 active:translate-y-0 active:shadow-[0_2px_8px_rgba(73,46,139,0.15)]
+                  flex items-center justify-center
+                  mx-auto"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                  </svg>
+                </button>
               </motion.li>
             </motion.ul>
           </motion.div>

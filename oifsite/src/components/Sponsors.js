@@ -188,7 +188,7 @@ const Sponsors = () => {
                       <img 
                         src={sponsor.image}
                         alt={sponsor.name}
-                        className="max-h-32 max-w-full object-contain transition-all duration-500 group-hover:scale-105 filter grayscale hover:grayscale-0"
+                        className="max-h-32 max-w-full object-contain transition-all duration-500 group-hover:scale-105"
                         onError={(e) => {
                           console.error(`Error loading image for ${sponsor.name}:`, e);
                           // Try without the @ symbol if it failed
