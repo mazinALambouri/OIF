@@ -348,7 +348,7 @@ const Navigation = () => {
                 <motion.li variants={linkVariants} className="flex items-center">
                   <motion.button 
                     onClick={handleDownloadGuide}
-                    aria-label="Download Guide"
+                    aria-label="Investor Guide"
                     className="px-4 py-1.5 bg-[#492E8B] text-white rounded-full transition-all duration-300 flex items-center justify-center"
                     whileHover={{ 
                       scale: 1.05,
@@ -364,7 +364,7 @@ const Navigation = () => {
                     }}
                     whileTap={{ scale: 0.92, y: 0 }}
                   >
-                    DOWNLOAD GUIDE
+                    INVESTOR GUIDE
                   </motion.button>
                 </motion.li>
               </div>
@@ -510,7 +510,7 @@ const Navigation = () => {
               <motion.li variants={mobileLinkVariants}>
                 <button 
                   onClick={handleDownloadGuide}
-                  aria-label="Download Guide"
+                  aria-label="Investor Guide"
                   className="mt-2 px-4 py-1.5 bg-[#492E8B] text-white rounded-full 
                   transition-all duration-500 ease-out
                   hover:bg-[#3d2575]
@@ -523,7 +523,7 @@ const Navigation = () => {
                   flex items-center justify-center
                   mx-auto"
                 >
-                  DOWNLOAD GUIDE
+                  INVESTOR GUIDE
                 </button>
               </motion.li>
             </motion.ul>
