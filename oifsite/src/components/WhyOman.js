@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { supabase } from '../supabaseClient.js';
 
-const Card = ({ title, description, onClick }) => {
+const Card = ({ title, description, icon, onClick }) => {
   return (
     <motion.div 
       className="relative group cursor-pointer"
@@ -11,9 +11,14 @@ const Card = ({ title, description, onClick }) => {
     >
       <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-secondary/20 rounded-2xl transform rotate-1 group-hover:rotate-2 transition-all duration-300"></div>
       <div className="relative bg-white backdrop-blur-sm border border-white/50 rounded-2xl p-6 shadow-xl overflow-hidden group-hover:shadow-2xl transition-all duration-300">
-        <h3 className="text-xl font-bold text-gray-700 mb-4 group-hover:text-primary transition-colors duration-300">
-          {title}
-        </h3>
+        <div className="flex items-center gap-3 mb-4">
+          {icon && (
+            <div className="flex-shrink-0" dangerouslySetInnerHTML={{ __html: icon }} />
+          )}
+          <h3 className="text-xl font-bold text-gray-700 group-hover:text-primary transition-colors duration-300">
+            {title}
+          </h3>
+        </div>
         <p className="text-gray-600 leading-relaxed text-base line-clamp-3">
           {description}
         </p>
@@ -100,7 +105,7 @@ const WhyOman = () => {
         // Fetch sectors from Supabase
         const { data, error } = await supabase
           .from('sectors')
-          .select('name, description')
+          .select('name, description, icon')
           .order('name');
           
         if (error) {
@@ -224,6 +229,7 @@ const WhyOman = () => {
                 <Card
                   title={sector.name}
                   description={sector.description}
+                  icon={sector.icon}
                   onClick={() => openSectorDetails(sector)}
                 />
               </motion.div>

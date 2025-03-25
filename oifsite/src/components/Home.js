@@ -146,7 +146,7 @@ const Home = () => {
   // Split title into two parts if it exists, otherwise use default text
   const getFormattedTitle = () => {
     return {
-      firstPart: "ADVATAGE  OMAN ",
+      firstPart: "ADVANTAGE  OMAN ",
       secondPart: " FORUM  2025"
     };
   };

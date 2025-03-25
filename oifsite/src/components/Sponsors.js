@@ -172,14 +172,14 @@ const Sponsors = () => {
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+            className="flex flex-wrap justify-center gap-6 md:gap-8"
           >
             {sponsors.map((sponsor, index) => (
               <motion.div 
                 key={sponsor.id || index}
                 variants={itemVariants}
                 whileHover={{ y: -5, transition: { duration: 0.2 } }}
-                className="relative group"
+                className="relative group w-[200px] sm:w-[240px] md:w-[280px] mx-2"
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-secondary/20 rounded-2xl transform rotate-1 group-hover:rotate-2 transition-all duration-300"></div>
                 <div className="relative bg-white/80 backdrop-blur-sm border border-white/50 rounded-2xl p-6 shadow-xl overflow-hidden group-hover:shadow-2xl transition-all duration-300">
