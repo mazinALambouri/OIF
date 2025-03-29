@@ -1,8 +1,38 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../assets/img/AOF1.png';
+import { supabase } from '../supabaseClient';
 
 const Footer = () => {
+  const [appStoreLinks, setAppStoreLinks] = useState({ apple: null, google: null });
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchAppStoreLinks = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('app_store_links')
+          .select('platform, store_url')
+          .order('platform');
+
+        if (error) throw error;
+
+        const links = data.reduce((acc, link) => {
+          acc[link.platform] = link.store_url;
+          return acc;
+        }, {});
+
+        setAppStoreLinks(links);
+      } catch (error) {
+        console.error('Error fetching app store links:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAppStoreLinks();
+  }, []);
+
   return (
     <footer className="bg-gradient-to-r from-[#B1DCD5] to-[#0AB0CE] bg-[length:200%_200%] bg-[position:0%_0%] text-gray-800 py-16 px-6 md:px-16 lg:px-32" style={{ backgroundImage: 'linear-gradient(5deg, #0AB0CE, #B1DCD5)' }}>
       <div className="max-w-7xl mx-auto">
@@ -29,6 +59,38 @@ const Footer = () => {
           <a href="https://www.youtube.com/@invest-oman" target="_blank" rel="noopener noreferrer" className="text-gray-800 hover:text-[#FF0000] transition-colors duration-300">
             <i className="fab fa-youtube text-2xl"></i>
           </a>
+        </div>
+
+        {/* App Store Links */}
+        <div className="flex justify-center items-center space-x-6 mb-12">
+          {appStoreLinks.apple && (
+            <a 
+              href={appStoreLinks.apple} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="hover:opacity-80 transition-opacity duration-300"
+            >
+              <img 
+                src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83" 
+                alt="Download on the App Store" 
+                className="h-12 md:h-14"
+              />
+            </a>
+          )}
+          {appStoreLinks.google && (
+            <a 
+              href={appStoreLinks.google} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="hover:opacity-80 transition-opacity duration-300"
+            >
+              <img 
+                src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" 
+                alt="Get it on Google Play" 
+                className="h-16 md:h-20"
+              />
+            </a>
+          )}
         </div>
         
         {/* Copyright */}
