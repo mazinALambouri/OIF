@@ -49,7 +49,7 @@ const Speakers = () => {
         const { data, error } = await supabase
           .from('speakers')
           .select('id, name, position, company, gender, img, description')
-          .order('id', { ascending: true });
+          .order('id');
           
         if (error) {
           throw error;
