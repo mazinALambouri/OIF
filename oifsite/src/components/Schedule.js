@@ -55,6 +55,16 @@ const Schedule = () => {
             return acc;
           }, {});
           
+          // Sort events by time for each day
+          Object.keys(groupedByDay).forEach(dayKey => {
+            groupedByDay[dayKey].events.sort((a, b) => {
+              // Convert time strings to comparable values
+              const timeA = a.time ? a.time.toLowerCase() : '';
+              const timeB = b.time ? b.time.toLowerCase() : '';
+              return timeA.localeCompare(timeB);
+            });
+          });
+          
           console.log("Processed schedule data:", groupedByDay);
           setScheduleData(groupedByDay);
           
