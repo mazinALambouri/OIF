@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import logo from '../assets/img/AOF1.png';
 import { supabase } from '../supabaseClient';
 
 const Footer = () => {
   const [appStoreLinks, setAppStoreLinks] = useState({ apple: null, google: null });
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchAppStoreLinks = async () => {
@@ -25,8 +23,6 @@ const Footer = () => {
         setAppStoreLinks(links);
       } catch (error) {
         console.error('Error fetching app store links:', error);
-      } finally {
-        setLoading(false);
       }
     };
 

@@ -159,8 +159,8 @@ const Schedule = () => {
   const formatTime = (timeString) => {
     if (!timeString) return '';
     
-    // Simple formatting - can be enhanced based on your time format
-    return timeString;
+    // Remove seconds from the time string
+    return timeString.replace(/:\d{2}(?=\s|$)/, '');
   };
 
   return (

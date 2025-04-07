@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '../supabaseClient';
-import { FaYoutube, FaVideo } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const LiveStream = () => {

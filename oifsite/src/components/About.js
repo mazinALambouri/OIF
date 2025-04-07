@@ -38,23 +38,6 @@ const About = () => {
     fetchOverviewData();
   }, []);
 
-  // Format date range for display
-  const formatDateRange = () => {
-    if (!overviewData || !overviewData.start_date || !overviewData.end_date) return "TBD";
-    
-    const startDate = new Date(overviewData.start_date);
-    const endDate = new Date(overviewData.end_date);
-    
-    // If same month and year
-    if (startDate.getMonth() === endDate.getMonth() && 
-        startDate.getFullYear() === endDate.getFullYear()) {
-      return `${startDate.getDate()}-${endDate.getDate()} ${startDate.toLocaleDateString('en-US', { month: 'long' })}, ${endDate.getFullYear()}`;
-    }
-    
-    // Different months or years
-    return `${startDate.getDate()} ${startDate.toLocaleDateString('en-US', { month: 'long' })} - ${endDate.getDate()} ${endDate.toLocaleDateString('en-US', { month: 'long' })}, ${endDate.getFullYear()}`;
-  };
-
   // Animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
