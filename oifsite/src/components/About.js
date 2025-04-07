@@ -200,7 +200,7 @@ const About = () => {
                       />
                       <span>+</span>
                     </div>
-                    <div className="text-gray-600 font-medium mt-2">Global Attendees</div>
+                    <div className="text-gray-600 font-medium mt-2">Attendees</div>
                   </motion.div>
                   
                   <motion.div 

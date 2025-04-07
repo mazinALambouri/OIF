@@ -62,6 +62,14 @@ const Footer = () => {
         </div>
 
         {/* App Store Links */}
+        <div className="flex flex-col justify-center items-center mb-8">
+          <h3 className="text-center text-gray-900 font-bold text-xl mb-3">
+            Download Our App
+          </h3>
+          <p className="text-center text-gray-800 max-w-md mx-auto leading-relaxed">
+            Access live sessions, participate in real-time engagement, and stay connected throughout the event.
+          </p>
+        </div>
         <div className="flex justify-center items-center space-x-6 mb-12">
           {appStoreLinks.apple && (
             <a 
