@@ -57,7 +57,9 @@ const RouteChangeTracker = () => {
   const location = useLocation();
   
   useEffect(() => {
-    logPageView();
+    if (GA_MEASUREMENT_ID) {
+      logPageView();
+    }
   }, [location]);
   
   return null;
@@ -111,8 +113,12 @@ const AppContent = () => {
 
 function App() {
   useEffect(() => {
-    // Initialize Google Analytics
-    initGA(GA_MEASUREMENT_ID);
+    // Initialize Google Analytics only if measurement ID exists
+    if (GA_MEASUREMENT_ID) {
+      initGA(GA_MEASUREMENT_ID);
+    } else {
+      console.warn('Google Analytics Measurement ID not found. Analytics will not be initialized.');
+    }
   }, []);
 
   return (

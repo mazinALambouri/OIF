@@ -46,10 +46,10 @@ const Sponsors = () => {
       try {
         setLoading(true);
         
-        // Fetch sponsors from Supabase
+        // Fetch sponsors from Supabase (updated to include link column)
         const { data, error } = await supabase
           .from('sponsors')
-          .select('id, name, img_sponsor')
+          .select('id, name, img_sponsor, link')
           .order('id');
           
         if (error) {
@@ -80,6 +80,7 @@ const Sponsors = () => {
               id: sponsor.id,
               name: sponsor.name,
               image: imageSource,
+              link: sponsor.link || null, // Add the link property
               // Apply default styling based on name or use generic styling
               ...defaultStyling[sponsor.name] || { height: "h-32", width: "w-56" }
             };
@@ -103,6 +104,13 @@ const Sponsors = () => {
 
     fetchSponsors();
   }, []);
+
+  // Function to handle clicking the sponsor card
+  const handleSponsorClick = (link) => {
+    if (link) {
+      window.open(link, '_blank', 'noopener,noreferrer');
+    }
+  };
 
   return (
     <section id="sponsors" className="py-24 bg-gradient-to-b from-white via-secondary/20 to-primary/10 relative overflow-hidden">
@@ -179,7 +187,8 @@ const Sponsors = () => {
                 key={sponsor.id || index}
                 variants={itemVariants}
                 whileHover={{ y: -5, transition: { duration: 0.2 } }}
-                className="relative group w-[200px] sm:w-[240px] md:w-[280px] mx-2"
+                className={`relative group w-[200px] sm:w-[240px] md:w-[280px] mx-2 ${sponsor.link ? 'cursor-pointer' : ''}`}
+                onClick={() => handleSponsorClick(sponsor.link)}
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-secondary/20 rounded-2xl transform rotate-1 group-hover:rotate-2 transition-all duration-300"></div>
                 <div className="relative bg-white/80 backdrop-blur-sm border border-white/50 rounded-2xl p-6 shadow-xl overflow-hidden group-hover:shadow-2xl transition-all duration-300">
@@ -209,6 +218,26 @@ const Sponsors = () => {
                   <div className="mt-4 text-center">
                     <h3 className="text-gray-700 font-medium">{sponsor.name}</h3>
                     <div className="mt-2 w-12 h-1 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full"></div>
+                    
+                    {/* Modern link indicator if link exists */}
+                    {sponsor.link && (
+                      <div className="mt-3 flex items-center justify-center">
+                        <motion.div 
+                          initial={{ scale: 0.8, opacity: 0 }}
+                          animate={{ scale: 1, opacity: 1 }}
+                          transition={{ delay: 0.2 }}
+                          className="relative inline-flex items-center justify-center"
+                        >
+                          <span className="relative z-10 text-sm text-primary-light font-medium flex items-center gap-1.5 transition-all duration-300 group-hover:text-primary">
+                            Visit
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5">
+                              <path fillRule="evenodd" d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z" clipRule="evenodd" />
+                            </svg>
+                          </span>
+                          <span className="absolute inset-0 -z-10 bg-primary/10 rounded-full scale-[0.85] blur-[2px] opacity-0 group-hover:opacity-100 transition-all duration-300"></span>
+                        </motion.div>
+                      </div>
+                    )}
                   </div>
                 </div>
               </motion.div>
