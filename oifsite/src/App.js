@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import Navigation from './components/Navigation';
@@ -11,6 +11,7 @@ import Sponsors from './components/Sponsors';
 import Footer from './components/Footer';
 import LiveStream from './components/LiveStream';
 import { initGA, logPageView } from './utils/analytics';
+import { checkNotificationPermission, setupLivestreamNotifications } from './utils/notifications';
 import './App.css';
 
 // Page transition variants
@@ -118,6 +119,12 @@ function App() {
       initGA(GA_MEASUREMENT_ID);
     } else {
       console.warn('Google Analytics Measurement ID not found. Analytics will not be initialized.');
+    }
+    
+    // Initialize notifications if permission already granted
+    const hasNotificationPermission = checkNotificationPermission();
+    if (hasNotificationPermission) {
+      setupLivestreamNotifications();
     }
   }, []);
 

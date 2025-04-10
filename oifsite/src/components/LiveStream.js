@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '../supabaseClient';
-import { FaYoutube, FaVideo } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
+import { 
+  checkNotificationPermission, 
+  requestNotificationPermission,
+  setupLivestreamNotifications
+} from '../utils/notifications';
 
 const LiveStream = () => {
   const [streamData, setStreamData] = useState(null);
@@ -12,6 +16,19 @@ const LiveStream = () => {
     fetchStreamData();
     // Set visible after component mounts to trigger animations
     setIsVisible(true);
+    
+    // Setup notifications regardless of UI
+    const setupNotifications = async () => {
+      // Request permission if needed
+      if (!checkNotificationPermission()) {
+        await requestNotificationPermission();
+      }
+      
+      // Setup notifications
+      setupLivestreamNotifications();
+    };
+    
+    setupNotifications();
   }, []);
 
   const fetchStreamData = async () => {
@@ -78,19 +95,6 @@ const LiveStream = () => {
       transition: { 
         staggerChildren: 0.2,
         delayChildren: 0.3
-      }
-    }
-  };
-  
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: { 
-      y: 0, 
-      opacity: 1,
-      transition: { 
-        type: "spring", 
-        stiffness: 100,
-        damping: 12
       }
     }
   };
@@ -180,12 +184,6 @@ const LiveStream = () => {
             animate="visible"
             variants={containerVariants}
           >
-            <motion.div 
-              variants={itemVariants}
-              className="text-center mb-12"
-            >
-            </motion.div>
-
             <motion.div 
               variants={videoContainerAnimation}
               className="relative"
