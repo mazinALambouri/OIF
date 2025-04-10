@@ -12,39 +12,10 @@ const Home = () => {
   const [countdownFinished, setCountdownFinished] = useState(false);
   const [eventPassed, setEventPassed] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
-  const [overviewData, setOverviewData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
     // Set visible after component mounts to trigger animations
     setIsVisible(true);
-
-    const fetchOverviewData = async () => {
-      try {
-        // Fetch overview data from Supabase
-        const { data, error } = await supabase
-          .from('overview')
-          .select('id, main_title, sub_title, start_date, end_date, location, attendance_info, created_at')
-          .order('id')
-          .limit(1);
-          
-        if (error) {
-          throw error;
-        }
-        
-        if (data && data.length > 0) {
-          setOverviewData(data[0]);
-        }
-      } catch (error) {
-        console.error("Error fetching overview data:", error);
-        setError(error.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchOverviewData();
 
     const calculateTimeLeft = () => {
       const targetDate = new Date('2025-04-27T00:00:00').getTime();

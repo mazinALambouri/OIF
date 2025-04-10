@@ -6,10 +6,7 @@ import { supabase } from '../supabaseClient';
 
 const Navigation = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isMobileSubmenuOpen, setIsMobileSubmenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
-  const [prevSection, setPrevSection] = useState(null);
-  const [scrollDirection, setScrollDirection] = useState('down');
   const [lastScrollY, setLastScrollY] = useState(0);
   const location = useLocation();
   
@@ -48,15 +45,8 @@ const Navigation = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
-  const toggleMobileSubmenu = (e) => {
-    e.preventDefault();
-    setIsMobileSubmenuOpen(!isMobileSubmenuOpen);
-  };
-
   const scrollToSection = (sectionId, e) => {
     e.preventDefault();
-    setPrevSection(activeSection);
-    setActiveSection(sectionId);
     
     const element = document.getElementById(sectionId);
     if (element) {
@@ -86,12 +76,6 @@ const Navigation = () => {
       const sections = ['home', 'about', 'schedule', 'speakers', 'sponsors'];
       const currentScrollY = window.pageYOffset;
       
-      // Determine scroll direction
-      if (currentScrollY > lastScrollY) {
-        setScrollDirection('down');
-      } else {
-        setScrollDirection('up');
-      }
       setLastScrollY(currentScrollY);
       
       // Find the active section
@@ -102,7 +86,6 @@ const Navigation = () => {
           // If the section is in the viewport (with some buffer for better UX)
           if (rect.top <= 100 && rect.bottom >= 100) {
             if (activeSection !== section) {
-              setPrevSection(activeSection);
               setActiveSection(section);
             }
             break;
