@@ -325,7 +325,7 @@ const Navigation = () => {
                     }}
                     whileTap={{ scale: 0.92, y: 0 }}
                   >
-                    CONTACT US
+                    READY TO INVEST ?
                   </motion.a>
                 </motion.li>
                 <motion.li variants={linkVariants} className="flex items-center">
@@ -487,7 +487,7 @@ const Navigation = () => {
                   active:scale-95 active:translate-y-0 active:shadow-[0_2px_8px_rgba(143,210,199,0.15)]
                   mx-auto"
                 >
-                  CONTACT US
+                  READY TO INVEST ?
                 </a>
               </motion.li>
               <motion.li variants={mobileLinkVariants}>
