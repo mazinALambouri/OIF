@@ -11,12 +11,12 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
-// SMTP configuration
+// SMTP configuration - to be populated during runtime
 const SMTP_CONFIG = {
   hostname: 'smtp.gmail.com',
   port: 587,
-  username: '', // Will be set from environment variables
-  password: '', // Will be set from environment variables
+  username: '',
+  password: '',
 };
 
 serve(async (req) => {
@@ -26,6 +26,15 @@ serve(async (req) => {
   }
 
   try {
+    // Try to get credentials from environment
+    try {
+      // For Supabase Edge Functions
+      SMTP_CONFIG.username = process.env.SMTP_USERNAME || '';
+      SMTP_CONFIG.password = process.env.SMTP_PASSWORD || '';
+    } catch (e) {
+      console.log("Could not access environment variables via process.env");
+    }
+
     // Parse request body
     const { to, from, subject, message } = await req.json();
 
@@ -37,11 +46,19 @@ serve(async (req) => {
       );
     }
 
+    // Validate SMTP credentials are set
+    if (!SMTP_CONFIG.username || !SMTP_CONFIG.password) {
+      console.error('SMTP credentials not configured');
+      return new Response(
+        JSON.stringify({ error: 'Email service not properly configured' }),
+        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
     // Configure SMTP client
     const client = new SmtpClient();
     
     // Connect to SMTP server
-    // Note: Replace with your actual SMTP server details
     await client.connectTLS({
       hostname: SMTP_CONFIG.hostname,
       port: SMTP_CONFIG.port,

@@ -69,17 +69,45 @@ const Footer = () => {
     setFormError(null);
     
     try {
-      // Send email using Supabase Edge Function
+      // Prepare the message content with clearer formatting
+      const messageContent = formData.message.replace(/\n/g, '<br>');
+      
+      // Format the email content with proper HTML
+      const emailContent = `
+       hi ${formData.name},
+       we have received your message and will get back to you as soon as possible.
+       thank you for your interest in Invest Oman.
+       best regards,
+       the Invest Oman team
+      `;
+      
+      // Send email directly with all required information
       const { data, error } = await supabase.functions.invoke('send-email', {
         body: {
-          to: 'advantageoman@investoman.om',
-          from: formData.email,
-          subject: `Inquiry from ${formData.name}`,
-          message: formData.message
+          to: 'malambouri@gmail.com',
+          cc: formData.email,
+          from: 'admin@advantageoman.com',
+          fromName: 'AOF',
+          replyTo: formData.email,
+          subject: `Contact Form: Message from ${formData.name}`,
+          html: emailContent,
+          text: `Name: ${formData.name}\n\nEmail: ${formData.email}\n\nMessage:\n\n${formData.message}\n\n---\nThis message was sent from the contact form on the Invest Oman website.`,
+          message: formData.message, // Add the message as a separate property as well
+          smtp: {
+            host: 'smtp.cloudacropolis.com',
+            port: 465,
+            username: 'admin@advantageoman.com',
+            secure: true
+          }
         }
       });
       
-      if (error) throw error;
+      if (error) {
+        console.error('Email error details:', error);
+        throw new Error(error.message || 'Failed to send message');
+      }
+      
+      console.log('Email sent successfully:', data);
       
       // Reset form and show success message
       setFormData({
@@ -95,7 +123,7 @@ const Footer = () => {
       }, 5000);
     } catch (error) {
       console.error('Error sending email:', error);
-      setFormError('Failed to send message. Please try again later.');
+      setFormError(`Failed to send message: ${error.message || 'Unknown error'}`);
     } finally {
       setFormSubmitting(false);
     }
@@ -200,7 +228,7 @@ const Footer = () => {
                 onClick={() => setShowInterestModal(true)}
                 className="py-3 px-6 rounded-full bg-primary text-white font-medium shadow-md hover:shadow-lg hover:bg-primary-dark hover:-translate-y-1 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary/50"
               >
-                Are you interested?
+                Register to Watch Live on April 27
               </button>
             </div>
             
