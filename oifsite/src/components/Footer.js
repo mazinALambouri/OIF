@@ -95,17 +95,12 @@ const Footer = () => {
         to_name: 'Invest Oman Team'
       };
       
-      // Option 1: Using sendForm (which uses the form reference)
-      const result = await emailjs.sendForm(
+      await emailjs.send(
         serviceId, 
         templateId, 
-        form.current,
+        templateParams,
         publicKey
       );
-      
-      // Add hidden field for the to_email in the form
-      
-      console.log('Email sent successfully:', result.text);
       
       // Reset form and show success message
       setFormData({
@@ -298,13 +293,12 @@ const Footer = () => {
               )}
               
               <form ref={form} onSubmit={handleSubmit} className="space-y-4 flex-grow flex flex-col">
-                <input type="hidden" name="to_email" value="advantageoman@investoman.om" />
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Name</label>
                   <input
                     type="text"
                     id="name"
-                    name="from_name"
+                    name="name"
                     value={formData.name}
                     onChange={handleInputChange}
                     required
@@ -318,7 +312,7 @@ const Footer = () => {
                   <input
                     type="email"
                     id="email"
-                    name="reply_to"
+                    name="email"
                     value={formData.email}
                     onChange={handleInputChange}
                     required
