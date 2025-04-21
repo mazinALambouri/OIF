@@ -89,6 +89,7 @@ const Footer = () => {
       
       const templateParams = {
         from_name: formData.name,
+        email: formData.email,
         reply_to: formData.email,
         to_email: 'advantageoman@investoman.om',
         message: formData.message,
@@ -102,6 +103,11 @@ const Footer = () => {
         publicKey
       );
       
+<<<<<<< HEAD
+=======
+      console.log('Email sent successfully:', result.text);
+      
+>>>>>>> bac51a8c123a191687edc6dcc613302b27ec0110
       // Reset form and show success message
       setFormData({
         name: '',
@@ -319,6 +325,7 @@ const Footer = () => {
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/50 focus:border-primary/50 transition-colors"
                     placeholder="your@email.com"
                   />
+                  <input type="hidden" name="reply_to" value={formData.email} />
                 </div>
                 
                 <div className="flex-grow">
