@@ -103,11 +103,6 @@ const Footer = () => {
         publicKey
       );
       
-<<<<<<< HEAD
-=======
-      console.log('Email sent successfully:', result.text);
-      
->>>>>>> bac51a8c123a191687edc6dcc613302b27ec0110
       // Reset form and show success message
       setFormData({
         name: '',
