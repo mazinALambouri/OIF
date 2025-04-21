@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import logo from '../assets/img/AOF1.png';
 import { supabase } from '../supabaseClient';
+import emailjs from '@emailjs/browser';
 
 const Footer = () => {
   const [appStoreLinks, setAppStoreLinks] = useState({ apple: null, google: null });
@@ -12,6 +13,7 @@ const Footer = () => {
   const [formSubmitting, setFormSubmitting] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [formError, setFormError] = useState(null);
+  const form = useRef();
   
   // Interest popup state
   const [showInterestModal, setShowInterestModal] = useState(false);
@@ -49,9 +51,20 @@ const Footer = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    
+    // Map EmailJS field names to our state properties
+    let stateKey;
+    if (name === 'from_name') {
+      stateKey = 'name';
+    } else if (name === 'reply_to') {
+      stateKey = 'email';
+    } else {
+      stateKey = name;
+    }
+    
     setFormData(prev => ({
       ...prev,
-      [name]: value
+      [stateKey]: value
     }));
   };
   
@@ -69,45 +82,30 @@ const Footer = () => {
     setFormError(null);
     
     try {
-      // Prepare the message content with clearer formatting
-      const messageContent = formData.message.replace(/\n/g, '<br>');
+      // Use EmailJS to send the email
+      const serviceId = 'service_t2nzyna';
+      const templateId = 'template_4ie4lue';
+      const publicKey = 'vAdPXkWlaHzaiu3gW';
       
-      // Format the email content with proper HTML
-      const emailContent = `
-       hi ${formData.name},
-       we have received your message and will get back to you as soon as possible.
-       thank you for your interest in Invest Oman.
-       best regards,
-       the Invest Oman team
-      `;
+      const templateParams = {
+        from_name: formData.name,
+        reply_to: formData.email,
+        to_email: 'advantageoman@investoman.om',
+        message: formData.message,
+        to_name: 'Invest Oman Team'
+      };
       
-      // Send email directly with all required information
-      const { data, error } = await supabase.functions.invoke('send-email', {
-        body: {
-          to: 'malambouri@gmail.com',
-          cc: formData.email,
-          from: 'admin@advantageoman.com',
-          fromName: 'AOF',
-          replyTo: formData.email,
-          subject: `Contact Form: Message from ${formData.name}`,
-          html: emailContent,
-          text: `Name: ${formData.name}\n\nEmail: ${formData.email}\n\nMessage:\n\n${formData.message}\n\n---\nThis message was sent from the contact form on the Invest Oman website.`,
-          message: formData.message, // Add the message as a separate property as well
-          smtp: {
-            host: 'smtp.cloudacropolis.com',
-            port: 465,
-            username: 'admin@advantageoman.com',
-            secure: true
-          }
-        }
-      });
+      // Option 1: Using sendForm (which uses the form reference)
+      const result = await emailjs.sendForm(
+        serviceId, 
+        templateId, 
+        form.current,
+        publicKey
+      );
       
-      if (error) {
-        console.error('Email error details:', error);
-        throw new Error(error.message || 'Failed to send message');
-      }
+      // Add hidden field for the to_email in the form
       
-      console.log('Email sent successfully:', data);
+      console.log('Email sent successfully:', result.text);
       
       // Reset form and show success message
       setFormData({
@@ -299,13 +297,14 @@ const Footer = () => {
                 </div>
               )}
               
-              <form onSubmit={handleSubmit} className="space-y-4 flex-grow flex flex-col">
+              <form ref={form} onSubmit={handleSubmit} className="space-y-4 flex-grow flex flex-col">
+                <input type="hidden" name="to_email" value="advantageoman@investoman.om" />
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Name</label>
                   <input
                     type="text"
                     id="name"
-                    name="name"
+                    name="from_name"
                     value={formData.name}
                     onChange={handleInputChange}
                     required
@@ -319,7 +318,7 @@ const Footer = () => {
                   <input
                     type="email"
                     id="email"
-                    name="email"
+                    name="reply_to"
                     value={formData.email}
                     onChange={handleInputChange}
                     required
