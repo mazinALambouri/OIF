@@ -216,14 +216,28 @@ const Footer = () => {
               </div>
             </div>
             
-            {/* Interest Button */}
-            <div className="mb-8 flex flex-col items-center w-full">
+            {/* Buttons section */}
+            <div className="mb-8 flex flex-row items-center justify-center w-full gap-4">
+              <a
+                href={"https://glbyfqyavllzvaozaqle.supabase.co/storage/v1/object/sign/home/Advantage%20Oman%20Forum%20e-Booklet.pdf?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJob21lL0FkdmFudGFnZSBPbWFuIEZvcnVtIGUtQm9va2xldC5wZGYiLCJpYXQiOjE3NDU0OTI4MTAsImV4cCI6MTc3NzAyODgxMH0.v4f1LwVEKKK81_ao0vQEojX8WvKPF90MAk9Ndn4NMxw"}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="py-3 px-6 rounded-full bg-white text-primary border-2 border-primary font-medium shadow-md hover:shadow-lg hover:bg-primary hover:text-white hover:-translate-y-1 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary/50"
+              >
+                Download Advantage Oman Booklet
+              </a>
+              
               <button
                 onClick={() => setShowInterestModal(true)}
-                className="py-3 px-6 rounded-full bg-primary text-white font-medium shadow-md hover:shadow-lg hover:bg-primary-dark hover:-translate-y-1 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary/50"
+                className="py-3 px-6 rounded-full bg-primary text-white font-medium shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary/50 border-2 border-transparent"
               >
                 Register to Watch Live on April 27
               </button>
+            </div>
+            
+            {/* Interest Button */}
+            <div className="mb-8 flex flex-col items-center w-full">
+              
             </div>
             
             {/* Empty flex spacer to push content to bottom */}
@@ -253,20 +267,18 @@ const Footer = () => {
                   />
                 </a>
               )}
-              {appStoreLinks.google && (
-                <a 
-                  href={appStoreLinks.google} 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="hover:opacity-80 transition-opacity duration-300"
-                >
-                  <img 
-                    src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" 
-                    alt="Get it on Google Play" 
-                    className="h-16 md:h-20"
-                  />
-                </a>
-              )}
+              <a 
+                href="https://play.google.com/store/apps/details?id=com.advantageoman.app" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="hover:opacity-80 transition-opacity duration-300"
+              >
+                <img 
+                  src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" 
+                  alt="Get it on Google Play" 
+                  className="h-16 md:h-20"
+                />
+              </a>
             </div>
           </div>
           
