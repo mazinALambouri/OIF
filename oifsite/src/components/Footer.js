@@ -219,7 +219,7 @@ const Footer = () => {
             {/* Buttons section */}
             <div className="mb-8 flex flex-row items-center justify-center w-full gap-4">
               <a
-                href={"https://glbyfqyavllzvaozaqle.supabase.co/storage/v1/object/sign/home/Advantage%20Oman%20Forum%20e-Booklet.pdf?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJob21lL0FkdmFudGFnZSBPbWFuIEZvcnVtIGUtQm9va2xldC5wZGYiLCJpYXQiOjE3NDU0OTI4MTAsImV4cCI6MTc3NzAyODgxMH0.v4f1LwVEKKK81_ao0vQEojX8WvKPF90MAk9Ndn4NMxw"}
+                href={"https://glbyfqyavllzvaozaqle.supabase.co/storage/v1/object/sign/home/Advantage%20Oman%20Forum%20-%20Brochure.pdf?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJob21lL0FkdmFudGFnZSBPbWFuIEZvcnVtIC0gQnJvY2h1cmUucGRmIiwiaWF0IjoxNzQ1Njc5ODcxLCJleHAiOjE3NzcyMTU4NzF9.yRUcBlGOk0Y4LK7kxR76grtTcYmyyw8vMC2DmBnT1aw"}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="py-3 px-6 rounded-full bg-white text-primary border-2 border-primary font-medium shadow-md hover:shadow-lg hover:bg-primary hover:text-white hover:-translate-y-1 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary/50"
